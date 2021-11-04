@@ -25,10 +25,10 @@ int main()
     } while(input!='0');
 
     //MQTT TEST:
+    //Replace "localhost" with the ip of the robot.
     const std::string ADDRESS { "tcp://localhost:1883" };
     const std::string TOPIC { "cmd_vel" };
     const int QOS = 1;
-    signal(SIGINT, signalHandler);
     std::cout << "Initializing for server '" << ADDRESS << "'..." << std::endl;
     mqtt::async_client cli(ADDRESS, "");
     mqtt::topic mes(cli, TOPIC, QOS);

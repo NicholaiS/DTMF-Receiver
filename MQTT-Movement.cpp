@@ -1,11 +1,5 @@
 #include "MQTT-Movement.h"
 
-//MQTT::MQTT(mqtt::async_client &client, mqtt::topic &message)
-//{
-//    cli = &client;
-//    mes = &message;
-//}
-
 bool MQTT::connect()
 {
     try
@@ -89,6 +83,26 @@ json MQTT::movement(direction d)
         return l;
         break;
     }
+
+    case STOP:
+    {
+        json s = {
+            {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
+            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
+        };
+        return s;
+        break;
+    }
+
+    default:
+    {
+        json d = {
+            {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
+            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
+        };
+        return d;
+        break;
+    }
     }
 }
 
@@ -98,8 +112,8 @@ void MQTT::run(MQTT ex)
     bool connected = ex.connect();
     std::cout << "Connected: " << connected << std::endl;
 
-    std::cout << "Ready to run" << std::endl;
-    std::cout << "w, a, s, d to control and q to stop" << std::endl;
+    std::cout << "Ready to run." << std::endl;
+    std::cout << "w, a, s, d to control, q to stop the robot and 0 to exit." << std::endl;
     char input;
     do
     {
@@ -122,6 +136,13 @@ void MQTT::run(MQTT ex)
         case 'd':
             ex.messageBot(movement(RIGHT));
             break;
+
+        case 'q':
+            ex.messageBot(movement(STOP));
+            tok = mes->publish(movement(STOP));
+            tok->wait();
+            exit(0);
+            break;
         }
-    } while(input != 'q');
+    } while(input != '0');
 }
