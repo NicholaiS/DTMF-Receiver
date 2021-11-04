@@ -1,10 +1,10 @@
 #include "MQTT-Movement.h"
 
-MQTT::MQTT(mqtt::async_client &client, mqtt::topic &message)
-{
-    cli = &client;
-    mes = &message;
-}
+//MQTT::MQTT(mqtt::async_client &client, mqtt::topic &message)
+//{
+//    cli = &client;
+//    mes = &message;
+//}
 
 bool MQTT::connect()
 {
@@ -35,17 +35,19 @@ void MQTT::messageBot(json j)
     }
 }
 
-void MQTT::movement(direction d)
+//void MQTT::signalHandler(int s)
+//{
+//    json stop_msg = {{"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
+//    {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
+//    };
+//    std::cout << "CTRL + C pressed, exiting.." << std::endl;
+//    tok = mes->publish(stop_msg.dump());
+//    tok->wait();
+//    exit(s);
+//}
+
+json MQTT::movement(direction d)
 {
-    signal(SIGINT, signalhandler);
-    std::cout << "Initializing for server '" << ADDRESS << "'..." << std::endl;
-    mqtt::async_client cli(ADDRESS, "");
-    mqtt::topic mes(cli, TOPIC, QOS);
-
-    MQTT ex(cli, mes);
-    bool connected = ex.connect();
-    std::cout << "Connected: " << connected << std::endl;
-
     switch(d)
     {
     case FORWARD:
@@ -54,7 +56,7 @@ void MQTT::movement(direction d)
             {"linear", {{"x", 0.2}, {"y", 0}, {"z", 0}}},
             {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
         };
-        ex.messageBot(f);
+        return f;
         break;
     }
 
@@ -64,7 +66,7 @@ void MQTT::movement(direction d)
             {"linear", {{"x", -0.2}, {"y", 0}, {"z", 0}}},
             {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
         };
-        ex.messageBot(b);
+        return b;
         break;
     }
 
@@ -74,7 +76,7 @@ void MQTT::movement(direction d)
             {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
             {"angular", {{"x", 0}, {"y", 0}, {"z", 0.5}}}
         };
-        ex.messageBot(r);
+        return r;
         break;
     }
 
@@ -84,15 +86,18 @@ void MQTT::movement(direction d)
             {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
             {"angular", {{"x", 0}, {"y", 0}, {"z", -0.5}}}
         };
-        ex.messageBot(l);
+        return l;
         break;
     }
     }
 }
 
 
-void MQTT::run()
+void MQTT::run(MQTT ex)
 {
+    bool connected = ex.connect();
+    std::cout << "Connected: " << connected << std::endl;
+
     std::cout << "Ready to run" << std::endl;
     std::cout << "w, a, s, d to control and q to stop" << std::endl;
     char input;
@@ -103,19 +108,19 @@ void MQTT::run()
         switch(input)
         {
         case 'w':
-            movement(FORWARD);
+            ex.messageBot(movement(FORWARD));
             break;
 
         case 's':
-            movement(BACKWARDS);
+            ex.messageBot(movement(BACKWARDS));
             break;
 
         case 'a':
-            movement(LEFT);
+            ex.messageBot(movement(LEFT));
             break;
 
         case 'd':
-            movement(RIGHT);
+            ex.messageBot(movement(RIGHT));
             break;
         }
     } while(input != 'q');

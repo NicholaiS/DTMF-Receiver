@@ -11,11 +11,8 @@
 #include "json.hpp"
 
 using json = nlohmann::json;
-mqtt::async_client* cli;
-mqtt::topic* mes;
-mqtt::token_ptr tok;
 
-void signalhandler(int s)
+void signalHandler(int s)
 {
     json stop_msg = {{"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
     {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
@@ -34,18 +31,17 @@ enum direction
 class MQTT
 {
 public:
-    MQTT(mqtt::async_client& client, mqtt::topic& message);
+    MQTT(mqtt::async_client& client, mqtt::topic& message) : mes(&message), cli(&client){}
     bool connect();
     void messageBot(json j);
-//    void signalhandler(int s);
-    void movement(direction d);
-    void run();
-
+//    void signalHandler(int s);
+    json movement(direction d);
+    void run(MQTT ex);
 
 private:
-    const std::string ADDRESS { "tcp://localhost:1883" };
-    const std::string TOPIC { "cmd_vel" };
-    const int QOS = 1;
+    mqtt::async_client* cli;
+    mqtt::topic* mes;
+    mqtt::token_ptr tok;
 };
 
 #endif // MQTTMOVEMENT_H
