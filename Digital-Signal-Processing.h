@@ -3,6 +3,8 @@
 #include "SFML/Audio.hpp"
 #include <iostream>
 #include <cmath>
+#include <vector>
+#include <unistd.h>
 
 class DSP
 {
@@ -11,8 +13,9 @@ public:
     void FindMic();
     void StartRecording();
     void StopRecording();
-    double GoertzelAlgorithm(int SampleSize, int TargetFreq, int SamplingRate, const sf::Int16* Data);
+    double GoertzelAlgorithm(int SampleSize, int TargetFreq, const sf::Int16* Data);
     void RecordDSPLoop();
+    void FreqPerceiver();
     void PlaybackTest();
 
 private:
@@ -21,6 +24,7 @@ private:
     sf::Sound sound;
     const sf::Int16* samples;
     std::size_t samplecount;
+    int SamplingRate = 44100;
 };
 
 #endif // DIGITALSIGNALPROCESSING_H

@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Digital-Signal-Processing.h"
 #include "MQTT-Movement.h"
-#include "fftw3.h"
 
 int main()
 {
@@ -11,6 +10,10 @@ int main()
     dsp.FindMic();
     do
     {
+        std::cout << "w for optagelse." << std::endl;
+        std::cout << "s for playback test." << std::endl;
+        std::cout << "x for kontinuert DTMF genkendelses loop (DTMF 0 lukker looped)" << std::endl;
+        std::cout << "0 for at lukke ned" << std::endl;
         std::cin >> input;
 
         switch(input)
@@ -20,8 +23,11 @@ int main()
             break;
 
         case 's':
-//            dsp.PlaybackTest(); //Kan bruges til at teste om din mic virker.
-            dsp.RecordDSPLoop(); //En test for udslag ved DTMF 2.
+            dsp.PlaybackTest(); //Kan bruges til at teste om din mic virker.
+            break;
+
+        case 'x':
+            dsp.RecordDSPLoop(); //En kontinuerlig test om der bliver hørt DTMF 0 til 9 hvor DTMF 0 stopper looped.
             break;
         }
     } while(input!='0');
