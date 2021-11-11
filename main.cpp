@@ -32,6 +32,9 @@ int main()
         }
     } while(input!='0');
 
+
+    //testest
+
     //MQTT TEST:
     //Replace "localhost" with the ip of the robot.
 //    const std::string ADDRESS { "tcp://172.20.10.7:1883" };
