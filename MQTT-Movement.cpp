@@ -47,7 +47,7 @@ json MQTT::movement(direction d)
     case FORWARD:
     {
         json f = {
-            {"linear", {{"x", 0.2}, {"y", 0}, {"z", 0}}},
+            {"linear", {{"x", -0.2}, {"y", 0}, {"z", 0}}},
             {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
         };
         return f;
@@ -57,7 +57,7 @@ json MQTT::movement(direction d)
     case BACKWARDS:
     {
         json b = {
-            {"linear", {{"x", -0.2}, {"y", 0}, {"z", 0}}},
+            {"linear", {{"x", 0.2}, {"y", 0}, {"z", 0}}},
             {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
         };
         return b;
@@ -68,7 +68,7 @@ json MQTT::movement(direction d)
     {
         json r = {
             {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
-            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.5}}}
+            {"angular", {{"x", 0}, {"y", 0}, {"z", -0.5}}}
         };
         return r;
         break;
@@ -78,7 +78,7 @@ json MQTT::movement(direction d)
     {
         json l = {
             {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
-            {"angular", {{"x", 0}, {"y", 0}, {"z", -0.5}}}
+            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.5}}}
         };
         return l;
         break;
@@ -139,8 +139,6 @@ void MQTT::run(MQTT ex)
 
         case 'q':
             ex.messageBot(movement(STOP));
-            tok = mes->publish(movement(STOP));
-            tok->wait();
             exit(0);
             break;
         }
