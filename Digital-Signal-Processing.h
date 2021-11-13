@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <string>
 #include <unistd.h>
 
 class DSP
@@ -14,7 +15,8 @@ public:
     void StartRecording();
     void StopRecording();
     double GoertzelAlgorithm(int SampleSize, int TargetFreq, const sf::Int16* Data);
-    void RecordDSPLoop();
+    bool StartBitTest();
+    std::string RecordDSPLoop();
     void FreqPerceiver();
     void PlaybackTest();
 
@@ -25,6 +27,7 @@ private:
     const sf::Int16* samples;
     std::size_t samplecount;
     int SamplingRate = 44100;
+    int BackgroundNoiseCap = 15;
 };
 
 #endif // DIGITALSIGNALPROCESSING_H

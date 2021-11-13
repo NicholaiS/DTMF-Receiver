@@ -7,6 +7,8 @@ int main()
     //DSP TEST:
     char input;
     DSP dsp;
+    MQTT mqtt;
+
     dsp.FindMic();
     do
     {
@@ -27,7 +29,7 @@ int main()
             break;
 
         case 'x':
-            dsp.RecordDSPLoop(); //En kontinuerlig test om der bliver hørt DTMF 0 til 9 hvor DTMF 0 stopper looped.
+            std::cout << dsp.RecordDSPLoop() << std::endl; //En kontinuerlig test om der bliver hørt DTMF 0 til 9 hvor DTMF 0 stopper looped.
             break;
         }
     } while(input!='0');

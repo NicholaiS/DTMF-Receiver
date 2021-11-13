@@ -30,6 +30,7 @@ void DSP::StopRecording()
     sound.setBuffer(buffer);
     samples = buffer.getSamples();
     samplecount = buffer.getSampleCount();
+    std::cout << "Recording stopped" << std::endl;
 }
 
 double DSP::GoertzelAlgorithm(int SampleSize, int TargetFreq, const sf::Int16* Data)
@@ -66,92 +67,77 @@ double DSP::GoertzelAlgorithm(int SampleSize, int TargetFreq, const sf::Int16* D
     return magnitude;
 }
 
-void DSP::RecordDSPLoop()
+bool DSP::StartBitTest()
 {
-    int BackgroundNoiseCap = 15;
-    std::vector<int> DirectionsInstructions;
-
+    std::cout << "Waiting for start bit" << std::endl;
     do
     {
         StopRecording();
-        //DTMF 1:
-        if(GoertzelAlgorithm(samplecount, 697, samples) > BackgroundNoiseCap &&
+        //DTMF 4 (Start bit):
+        if(GoertzelAlgorithm(samplecount, 770, samples) > BackgroundNoiseCap &&
                 GoertzelAlgorithm(samplecount, 1209, samples) > BackgroundNoiseCap)
         {
-            std::cout << "DTMF 1" << std::endl;
-            DirectionsInstructions.push_back(1);
-        }
-        //DTMF 2:
-        else if(GoertzelAlgorithm(samplecount, 697, samples) > BackgroundNoiseCap &&
-                GoertzelAlgorithm(samplecount, 1336, samples) > BackgroundNoiseCap)
-        {
-            std::cout << "DTMF 2" << std::endl;
-            DirectionsInstructions.push_back(2);
-        }
-        //DTMF 3:
-        else if(GoertzelAlgorithm(samplecount, 697, samples) > BackgroundNoiseCap &&
-                GoertzelAlgorithm(samplecount, 1477, samples) > BackgroundNoiseCap)
-        {
-            std::cout << "DTMF 3" << std::endl;
-            DirectionsInstructions.push_back(3);
-        }
-        //DTMF 4:
-        else if(GoertzelAlgorithm(samplecount, 770, samples) > BackgroundNoiseCap &&
-                GoertzelAlgorithm(samplecount, 1209, samples) > BackgroundNoiseCap)
-        {
-            std::cout << "DTMF 4" << std::endl;
-            DirectionsInstructions.push_back(4);
-        }
-        //DTMF 5:
-        else if(GoertzelAlgorithm(samplecount, 770, samples) > BackgroundNoiseCap &&
-                GoertzelAlgorithm(samplecount, 1336, samples) > BackgroundNoiseCap)
-        {
-            std::cout << "DTMF 5" << std::endl;
-            DirectionsInstructions.push_back(5);
-        }
-        //DTMF 6:
-        else if(GoertzelAlgorithm(samplecount, 770, samples) > BackgroundNoiseCap &&
-                GoertzelAlgorithm(samplecount, 1477, samples) > BackgroundNoiseCap)
-        {
-            std::cout << "DTMF 6" << std::endl;
-            DirectionsInstructions.push_back(6);
-        }
-        //DTMF 7:
-        else if(GoertzelAlgorithm(samplecount, 852, samples) > BackgroundNoiseCap &&
-                GoertzelAlgorithm(samplecount, 1209, samples) > BackgroundNoiseCap)
-        {
-            std::cout << "DTMF 7" << std::endl;
-            DirectionsInstructions.push_back(7);
-        }
-        //DTMF 8:
-        else if(GoertzelAlgorithm(samplecount, 852, samples) > BackgroundNoiseCap &&
-                GoertzelAlgorithm(samplecount, 1336, samples) > BackgroundNoiseCap)
-        {
-            std::cout << "DTMF 8" << std::endl;
-            DirectionsInstructions.push_back(8);
-        }
-        //DTMF 9:
-        else if(GoertzelAlgorithm(samplecount, 852, samples) > BackgroundNoiseCap &&
-                GoertzelAlgorithm(samplecount, 1477, samples) > BackgroundNoiseCap)
-        {
-            std::cout << "DTMF 9" << std::endl;
-            DirectionsInstructions.push_back(9);
-        }
-        //DTMF 0 (lukke signal):
-        else if(GoertzelAlgorithm(samplecount, 941, samples) > BackgroundNoiseCap &&
-                GoertzelAlgorithm(samplecount, 1336, samples) > BackgroundNoiseCap)
-        {
-            std::cout << "DTMF 0" << std::endl;
+            return true;
             break;
         }
-
         StartRecording();
-//        std::cout << "Recording ..." << std::endl;
-        std::cout << "Sleeping for 1 secs" << std::endl;
         sleep(1);
-    } while (1);
+
+    } while(1);
+}
+
+std::string DSP::RecordDSPLoop()
+{
+    std::vector<char> DirectionsInstructions;
+    std::string retur = "";
+    if(StartBitTest())
+    {
+        std::cout << "RecordDSPLoop begyndt" << std::endl;
+        do
+        {
+            StopRecording();
+            //DTMF 5 (Stop bit):
+            if(GoertzelAlgorithm(samplecount, 770, samples) > BackgroundNoiseCap &&
+                    GoertzelAlgorithm(samplecount, 1336, samples) > BackgroundNoiseCap)
+            {
+                std::cout << "Stop bit (DTMF 5)" << std::endl;
+                break;
+            }
+            //DTMF 8 (STOP ALT):
+            else if(GoertzelAlgorithm(samplecount, 852, samples) > BackgroundNoiseCap &&
+                    GoertzelAlgorithm(samplecount, 1336, samples) > BackgroundNoiseCap)
+            {
+                std::cout << "Nødstop trukket (DTMF 8)" << std::endl;
+                break;
+            }
+            //DTMF 9 (1):
+            else if(GoertzelAlgorithm(samplecount, 852, samples) > BackgroundNoiseCap &&
+                    GoertzelAlgorithm(samplecount, 1477, samples) > BackgroundNoiseCap)
+            {
+                std::cout << "DTMF 9" << std::endl;
+                DirectionsInstructions.push_back('1');
+            }
+            //DTMF 0 (0):
+            else if(GoertzelAlgorithm(samplecount, 941, samples) > BackgroundNoiseCap &&
+                    GoertzelAlgorithm(samplecount, 1336, samples) > BackgroundNoiseCap)
+            {
+                std::cout << "DTMF 0" << std::endl;
+                DirectionsInstructions.push_back('0');
+            }
+
+            StartRecording();
+            sleep(1);
+
+        } while (1);
+    }
 
     std::cout << "Loop stopped" << std::endl;
+
+    for(int i = 0; i < DirectionsInstructions.size(); i++)
+    {
+        retur += DirectionsInstructions[i];
+    }
+    return retur;
 }
 
 
