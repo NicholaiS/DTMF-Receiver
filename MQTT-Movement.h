@@ -6,7 +6,8 @@
 #include <thread>
 #include <string>
 #include <csignal>
-//#include <ncurses.h>
+#include <vector>
+#include <string>
 #include "mqtt/async_client.h"
 #include "json.hpp"
 
@@ -24,7 +25,7 @@ public:
     MQTT(mqtt::async_client& client, mqtt::topic& message) : cli(&client), mes(&message){}
     bool connect();
     void messageBot(json j);
-//    void signalHandler(int s);
+//    void DirectionDecider(std::string d);
     json movement(direction d);
     void run(MQTT ex);
     ~MQTT (){}

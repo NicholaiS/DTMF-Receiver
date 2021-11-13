@@ -29,17 +29,6 @@ void MQTT::messageBot(json j)
     }
 }
 
-//void MQTT::signalHandler(int s)
-//{
-//    json stop_msg = {{"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
-//    {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
-//    };
-//    std::cout << "CTRL + C pressed, exiting.." << std::endl;
-//    tok = mes->publish(stop_msg.dump());
-//    tok->wait();
-//    exit(s);
-//}
-
 json MQTT::movement(direction d)
 {
     switch(d)
@@ -144,3 +133,19 @@ void MQTT::run(MQTT ex)
         }
     } while(input != '0');
 }
+
+//void MQTT::DirectionDecider(std::string d)
+//{
+//    std::cout << d << std::endl;
+//}
+
+//void MQTT::signalHandler(int s)
+//{
+//    json stop_msg = {{"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
+//    {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
+//    };
+//    std::cout << "CTRL + C pressed, exiting.." << std::endl;
+//    tok = mes->publish(stop_msg.dump());
+//    tok->wait();
+//    exit(s);
+//}
