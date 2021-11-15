@@ -1,4 +1,6 @@
 #include "MQTT-Movement.h"
+#include "Digital-Signal-Processing.h"
+#include "encoder.h"
 
 bool MQTT::connect()
 {
@@ -29,109 +31,130 @@ void MQTT::messageBot(json j)
     }
 }
 
-json MQTT::movement(direction d)
+void MQTT::styr(int FB, int SS)
 {
-    switch(d)
-    {
-    case FORWARD:
-    {
+    currentspeed=FB/10;
+    currentangle=SS/10;
         json f = {
-            {"linear", {{"x", -0.2}, {"y", 0}, {"z", 0}}},
-            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
+            {"linear", {{"x", FB}, {"y",0},{"z",0}}},
+            {"angular", {{"x", 0}, {"y",0},{"z", SS}}}
         };
-        return f;
-        break;
-    }
+        std::cout<<f<<std::endl;
+}
 
-    case BACKWARDS:
+void MQTT::faster()
+{
+    std::cout<<"hastigheden før: "<<currentspeed<<std::endl;
+    if(currentspeed<7)
     {
-        json b = {
-            {"linear", {{"x", 0.2}, {"y", 0}, {"z", 0}}},
-            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
+        currentspeed++;
+        json f = {
+            {"linear", {{"x", currentspeed}, {"y",0},{"z",0}}},
+            {"angular", {{"x", 0}, {"y",0},{"z", currentangle}}}
         };
-        return b;
-        break;
     }
+    std::cout<<"hastigheden efter: "<<currentspeed<<std::endl;
+}
 
-    case RIGHT:
+void MQTT::slower()
+{
+    if(currentspeed>-7)
     {
-        json r = {
-            {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
-            {"angular", {{"x", 0}, {"y", 0}, {"z", -0.5}}}
+        currentspeed--;
+        json f = {
+            {"linear", {{"x", currentspeed}, {"y",0},{"z",0}}},
+            {"angular", {{"x", 0}, {"y",0},{"z", currentangle}}}
         };
-        return r;
-        break;
-    }
-
-    case LEFT:
-    {
-        json l = {
-            {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
-            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.5}}}
-        };
-        return l;
-        break;
-    }
-
-    case STOP:
-    {
-        json s = {
-            {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
-            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
-        };
-        return s;
-        break;
-    }
-
-    default:
-    {
-        json d = {
-            {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
-            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
-        };
-        return d;
-        break;
-    }
     }
 }
 
 
-void MQTT::run(MQTT ex)
-{
-    bool connected = ex.connect();
-    std::cout << "Connected: " << connected << std::endl;
 
+//json MQTT::movement(direction d)
+//{
+//    switch(d)
+//    {
+//    case FORWARD:
+//    {
+//        json f = {
+//            {"linear", {{"x", -0.2}, {"y", 0}, {"z", 0}}},
+//            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
+//        };
+//        return f;
+//        break;
+//    }
+
+//    case BACKWARDS:
+//    {
+//        json b = {
+//            {"linear", {{"x", 0.2}, {"y", 0}, {"z", 0}}},
+//            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
+//        };
+//        return b;
+//        break;
+//    }
+
+//    case RIGHT:
+//    {
+//        json r = {
+//            {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
+//            {"angular", {{"x", 0}, {"y", 0}, {"z", -0.5}}}
+//        };
+//        return r;
+//        break;
+//    }
+
+//    case LEFT:
+//    {
+//        json l = {
+//            {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
+//            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.5}}}
+//        };
+//        return l;
+//        break;
+//    }
+
+//    case STOP:
+//    {
+//        json s = {
+//            {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
+//            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
+//        };
+//        return s;
+//        break;
+//    }
+
+//    default:
+//    {
+//        json d = {
+//            {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
+//            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
+//        };
+//        return d;
+//        break;
+//    }
+//    }
+//}
+
+
+void MQTT::run()
+{
+    //bool connected = ex.connect();
+    //std::cout << "Connected: " << connected << std::endl;
+    DSP dsp;
+    std::string wtf;
+    dsp.FindMic();
     std::cout << "Ready to run." << std::endl;
-    std::cout << "w, a, s, d to control, q to stop the robot and 0 to exit." << std::endl;
-    char input;
+    //std::cout << "w, a, s, d to control, q to stop the robot and 0 to exit." << std::endl;
+//    char input;
     do
     {
-        std::cin >> input;
+//        std::cin>>input;
+        wtf = dsp.RecordDSPLoop();
+        styr(inty(decode(wtf)),intx(decode(wtf)));
 
-        switch(input)
-        {
-        case 'w':
-            ex.messageBot(movement(FORWARD));
-            break;
-
-        case 's':
-            ex.messageBot(movement(BACKWARDS));
-            break;
-
-        case 'a':
-            ex.messageBot(movement(LEFT));
-            break;
-
-        case 'd':
-            ex.messageBot(movement(RIGHT));
-            break;
-
-        case 'q':
-            ex.messageBot(movement(STOP));
-            exit(0);
-            break;
-        }
-    } while(input != '0');
+        break;
+    } while(1);
 }
 
 //void MQTT::DirectionDecider(std::string d)

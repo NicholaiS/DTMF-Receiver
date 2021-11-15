@@ -1,39 +1,44 @@
 #include <iostream>
 #include "Digital-Signal-Processing.h"
 #include "MQTT-Movement.h"
+#include "encoder.h"
 
 int main()
 {
     //DSP TEST:
-    char input;
-    DSP dsp;
+//    char input;
+//    DSP dsp;
     MQTT mqtt;
+    mqtt.run();
+//    encoder encoderen;
+    //mqtt.connect();
+//    dsp.FindMic();
 
-    dsp.FindMic();
-    do
-    {
-        std::cout << "w for optagelse." << std::endl;
-        std::cout << "s for playback test." << std::endl;
-        std::cout << "x for kontinuert DTMF genkendelses loop (DTMF 0 lukker looped)" << std::endl;
-        std::cout << "0 for at lukke ned" << std::endl;
-        std::cin >> input;
+//    do
+//    {
+//        std::cout << "w for optagelse." << std::endl;
+//        std::cout << "s for playback test." << std::endl;
+//        std::cout << "x for kontinuert DTMF genkendelses loop (DTMF 0 lukker looped)" << std::endl;
+//        std::cout << "0 for at lukke ned" << std::endl;
+//        std::cin >> input;
 
-        switch(input)
-        {
-        case 'w':
-            dsp.StartRecording();
-            break;
+//        switch(input)
+//        {
+//        case 'w':
+//            dsp.StartRecording();
+//            break;
 
-        case 's':
-            dsp.PlaybackTest(); //Kan bruges til at teste om din mic virker.
-            break;
+//        case 's':
+//            dsp.PlaybackTest(); //Kan bruges til at teste om din mic virker.
+//            break;
 
-        case 'x':
-            std::cout << dsp.RecordDSPLoop() << std::endl; //En kontinuerlig test om der bliver hørt DTMF 0 til 9 hvor DTMF 0 stopper looped.
-            break;
-        }
-    } while(input!='0');
-
+//        case 'x':
+//            std::cout << dsp.RecordDSPLoop() << std::endl; //En kontinuerlig test om der bliver hørt DTMF 0 til 9 hvor DTMF 0 stopper looped.
+//            break;
+//        }
+//    } while(input!='0');
+//    std::string wtf=dsp.RecordDSPLoop();
+//    mqtt.styr(encoderen.inty(wtf),encoderen.intx(wtf));
 
     //testest
 

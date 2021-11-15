@@ -124,7 +124,7 @@ std::string DSP::RecordDSPLoop()
             StartRecording();
             usleep(995000);
 
-        } while (1);
+        } while (DirectionsInstructions.size() < 10);
         sound.resetBuffer();
     }
 
