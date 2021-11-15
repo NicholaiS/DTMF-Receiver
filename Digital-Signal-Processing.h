@@ -27,7 +27,8 @@ private:
     const sf::Int16* samples;
     std::size_t samplecount;
     int SamplingRate = 44100;
-    int BackgroundNoiseCap = 15;
+    double HighFrequencyBackgroundNoiseCap = 250.0;
+    double LowFrequencyBackgroundNoiseCap = 30.0;
 };
 
 #endif // DIGITALSIGNALPROCESSING_H
