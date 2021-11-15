@@ -74,18 +74,21 @@ bool DSP::StartBitTest()
     {
         StopRecording();
         //DTMF 4 (Start bit):
-        if(GoertzelAlgorithm(samplecount, 770, samples) > BackgroundNoiseCap &&
-                GoertzelAlgorithm(samplecount, 1209, samples) > BackgroundNoiseCap)
+        if(GoertzelAlgorithm(samplecount, 770, samples) > LowFrequencyBackgroundNoiseCap &&
+                GoertzelAlgorithm(samplecount, 1209, samples) > HighFrequencyBackgroundNoiseCap)
         {
             return true;
             break;
         }
+        sound.resetBuffer();
         StartRecording();
-        sleep(1);
+        usleep(75000);
 
     } while(1);
 }
 
+// Hvis der forsat bliver fejlgenkendt lyde, så lav en if test på de høje frekvenser
+// og test om den du gerne vil finde giver et højere udslag end den som den tror den har fundet.
 std::string DSP::RecordDSPLoop()
 {
     std::vector<char> DirectionsInstructions;
@@ -96,39 +99,33 @@ std::string DSP::RecordDSPLoop()
         do
         {
             StopRecording();
-            //DTMF 5 (Stop bit):
-            if(GoertzelAlgorithm(samplecount, 770, samples) > BackgroundNoiseCap &&
-                    GoertzelAlgorithm(samplecount, 1336, samples) > BackgroundNoiseCap)
+            //DTMF A (Stop bit):
+            if(GoertzelAlgorithm(samplecount, 697, samples) > LowFrequencyBackgroundNoiseCap &&
+                    GoertzelAlgorithm(samplecount, 1633, samples) > HighFrequencyBackgroundNoiseCap)
             {
-                std::cout << "Stop bit (DTMF 5)" << std::endl;
-                break;
-            }
-            //DTMF 8 (STOP ALT):
-            else if(GoertzelAlgorithm(samplecount, 852, samples) > BackgroundNoiseCap &&
-                    GoertzelAlgorithm(samplecount, 1336, samples) > BackgroundNoiseCap)
-            {
-                std::cout << "Nødstop trukket (DTMF 8)" << std::endl;
+                std::cout << "Stop bit (DTMF A)" << std::endl;
                 break;
             }
             //DTMF 9 (1):
-            else if(GoertzelAlgorithm(samplecount, 852, samples) > BackgroundNoiseCap &&
-                    GoertzelAlgorithm(samplecount, 1477, samples) > BackgroundNoiseCap)
+            else if(GoertzelAlgorithm(samplecount, 852, samples) > LowFrequencyBackgroundNoiseCap &&
+                    GoertzelAlgorithm(samplecount, 1477, samples) > HighFrequencyBackgroundNoiseCap)
             {
                 std::cout << "DTMF 9" << std::endl;
                 DirectionsInstructions.push_back('1');
             }
             //DTMF 0 (0):
-            else if(GoertzelAlgorithm(samplecount, 941, samples) > BackgroundNoiseCap &&
-                    GoertzelAlgorithm(samplecount, 1336, samples) > BackgroundNoiseCap)
+            else if(GoertzelAlgorithm(samplecount, 941, samples) > LowFrequencyBackgroundNoiseCap &&
+                    GoertzelAlgorithm(samplecount, 1336, samples) > HighFrequencyBackgroundNoiseCap)
             {
                 std::cout << "DTMF 0" << std::endl;
                 DirectionsInstructions.push_back('0');
             }
-
+            sound.resetBuffer();
             StartRecording();
-            sleep(1);
+            usleep(995000);
 
         } while (1);
+        sound.resetBuffer();
     }
 
     std::cout << "Loop stopped" << std::endl;
