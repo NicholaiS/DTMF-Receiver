@@ -249,12 +249,14 @@ bool encoder::errorcheck(std::string i)
         switch(x)
         {
         case 1:
-            std::cout<<"Too many bits"<<std::endl;
+            std::cout<<"Too few bits"<<std::endl;
             return false;
             break;
 
         case 2:
-            std::cout<<"Too few bits"<<std::endl;
+            std::cout<<"Too many bits"<<std::endl;
+            return false;
+            break;
 
         case 3:
             std::cout<<"message contains invalid characters"<<std::endl;

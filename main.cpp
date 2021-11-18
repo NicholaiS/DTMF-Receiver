@@ -5,72 +5,81 @@
 
 int main()
 {
+    const std::string ADDRESS { "tcp://172.20.10.7:1883" };
+        const std::string TOPIC { "cmd_vel" };
+        const int QOS = 1;
+        std::cout << "Initializing for server '" << ADDRESS << "'..." << std::endl;
+        mqtt::async_client cli(ADDRESS, "");
+        mqtt::topic mes(cli, TOPIC, QOS);
+
+        MQTT ex(cli, mes);
+        ex.run(ex);
     //DSP TEST:
 //    char input;
 //    DSP dsp;
-    MQTT mqtt;
-    int testswitch=0;
-    if(testswitch==0)
-        mqtt.run();
-    else
-    {
-    encoder e;  //kun til brug a test
-    std::string k="1000101111"; //kun til brug a test
-    std::string q="0110001111";
-    std::string b="0001110001";
-    if(e.errorcheck(q))
-        mqtt.styr(e.inty(e.decode(q)),e.intx(e.decode(q)));
-    if(e.errorcheck(k)) //kun til brug a test
-    {
-        mqtt.styr(e.inty(e.decode(k)),e.intx(e.decode(k))); //kun til brug a test
-        //mqtt.faster();  //kun til brug a test
-        //mqtt.slower();  //kun til brug a test
-        //mqtt.faster();  //kun til brug a test
+//    MQTT mqtt;
+//    int testswitch=1;
+//    if(testswitch==0)
+//        mqtt.run();
+//    else
+//    {
+//    encoder e;  //kun til brug a test
+//    std::string k="1000101111"; //kun til brug a test
+//    std::string q="0110001111";
+//    std::string b="0001110001";
+//    if(e.errorcheck(q))
+//        mqtt.styr(e.inty(e.decode(q)),e.intx(e.decode(q)));
+//    if(e.errorcheck(k)) //kun til brug a test
+//    {
+//        mqtt.styr(e.inty(e.decode(k)),e.intx(e.decode(k))); //kun til brug a test
+//        //mqtt.faster();  //kun til brug a test
+//        //mqtt.slower();  //kun til brug a test
+//        //mqtt.faster();  //kun til brug a test
 
-    }
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
-    if(e.errorcheck(b))
-        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    }
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+//    if(e.errorcheck(b))
+//        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
 
-    if(e.errorcheck(k))
-        mqtt.styr(e.inty(e.decode(k)),e.intx(e.decode(k)));
-    if(e.errorcheck(k))
-        mqtt.styr(e.inty(e.decode(k)),e.intx(e.decode(k)));
+//    if(e.errorcheck(k))
+//        mqtt.styr(e.inty(e.decode(k)),e.intx(e.decode(k)));
+//    if(e.errorcheck(k))
+//        mqtt.styr(e.inty(e.decode(k)),e.intx(e.decode(k)));
     }
-    //for(int i=0;i<16;i++)
+//    //for(int i=0;i<16;i++)
     //    std::cout<<e.datawords(i)<<std::endl;;
     //
 //    encoder encoderen;
@@ -116,4 +125,4 @@ int main()
 
 //    MQTT ex(cli, mes);
 //    ex.run(ex);
-}
+

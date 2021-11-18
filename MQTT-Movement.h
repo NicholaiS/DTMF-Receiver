@@ -29,8 +29,8 @@ public:
     void messageBot(json j);
 //    void DirectionDecider(std::string d);
     json movement(direction d);
-    void run();
-    void styr(double FB, double SS);
+    void run(MQTT ex);
+    json styr(double FB, double SS);
     void faster();
     void slower();
     ~MQTT (){}
