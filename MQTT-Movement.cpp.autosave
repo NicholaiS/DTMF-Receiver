@@ -35,20 +35,20 @@ void MQTT::styr(double FB, double SS)
 {
     //std::cout<<currentspeed<<std::endl;
     fasterslow=currentspeed;
-        std::cout<<fasterslow<<" "<<angle<< "hey1" <<std::endl;
+        //std::cout<<fasterslow<<" "<<angle<< "hey1" <<std::endl;
     angle=currentangle;
-    std::cout<<fasterslow<<" "<<angle<< "hey2" <<std::endl;
+    //std::cout<<fasterslow<<" "<<angle<< "hey2" <<std::endl;
     currentspeed=FB/10;
     currentangle=SS/10;
-    std::cout<<currentspeed<<" current speed"<<std::endl;
-    std::cout<<currentangle<<" current angle"<<std::endl;
+    //std::cout<<currentspeed<<" current speed"<<std::endl;
+    //std::cout<<currentangle<<" current angle"<<std::endl;
     if(currentspeed>-0.7 && currentspeed<0.7 && currentangle>=-0.7 && currentangle<=0.7)
     {
             json f = {
                 {"linear", {{"x", currentspeed}, {"y",0},{"z",0}}},
                 {"angular", {{"x", 0}, {"y",0},{"z", currentangle}}}
             };
-        std::cout<<f<<"wtf"<<std::endl;
+        //std::cout<<f<<"wtf"<<std::endl;
     }
 
     else if(currentangle<-0.7 && fasterslow>-0.7)
@@ -62,7 +62,7 @@ void MQTT::faster()
     //std::cout<<"hastigheden før: "<<currentspeed<<std::endl;
     if(currentspeed<0.7  )
     {
-        std::cout<<angle<<" vinkel "<<fasterslow<<" hastighed "<<std::endl;
+        //std::cout<<angle<<" vinkel "<<fasterslow<<" hastighed "<<std::endl;
         fasterslow=fasterslow*10;
         fasterslow=fasterslow+1;
         fasterslow=fasterslow/10;

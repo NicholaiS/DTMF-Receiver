@@ -30,7 +30,7 @@ public:
 //    void DirectionDecider(std::string d);
     json movement(direction d);
     void run();
-    void styr(int FB, int SS);
+    void styr(double FB, double SS);
     void faster();
     void slower();
     ~MQTT (){}
@@ -39,8 +39,10 @@ private:
     mqtt::async_client* cli;
     mqtt::topic* mes;
     mqtt::token_ptr tok;
-    double currentspeed;
-    double currentangle;
+    double currentspeed=0;
+    double currentangle=0;
+    double fasterslow=0;
+    double angle=0;
 };
 
 #endif // MQTTMOVEMENT_H

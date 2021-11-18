@@ -9,7 +9,70 @@ int main()
 //    char input;
 //    DSP dsp;
     MQTT mqtt;
-    mqtt.run();
+    int testswitch=0;
+    if(testswitch==0)
+        mqtt.run();
+    else
+    {
+    encoder e;  //kun til brug a test
+    std::string k="1000101111"; //kun til brug a test
+    std::string q="0110001111";
+    std::string b="0001110001";
+    if(e.errorcheck(q))
+        mqtt.styr(e.inty(e.decode(q)),e.intx(e.decode(q)));
+    if(e.errorcheck(k)) //kun til brug a test
+    {
+        mqtt.styr(e.inty(e.decode(k)),e.intx(e.decode(k))); //kun til brug a test
+        //mqtt.faster();  //kun til brug a test
+        //mqtt.slower();  //kun til brug a test
+        //mqtt.faster();  //kun til brug a test
+
+    }
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+    if(e.errorcheck(b))
+        mqtt.styr(e.inty(e.decode(b)),e.intx(e.decode(b)));
+
+    if(e.errorcheck(k))
+        mqtt.styr(e.inty(e.decode(k)),e.intx(e.decode(k)));
+    if(e.errorcheck(k))
+        mqtt.styr(e.inty(e.decode(k)),e.intx(e.decode(k)));
+    }
+    //for(int i=0;i<16;i++)
+    //    std::cout<<e.datawords(i)<<std::endl;;
+    //
 //    encoder encoderen;
     //mqtt.connect();
 //    dsp.FindMic();

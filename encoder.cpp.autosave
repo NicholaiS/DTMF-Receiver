@@ -44,8 +44,6 @@ if(encheckstring(i)){
 
 std::string encoder::decode(std::string i)
 {
-    if(i.size()<10||i.size()>10)
-        std::cout<<"nej"<<std::endl;
     if(errorcheck(i))
     {
         std::string sh1, sh2, fs;
@@ -97,7 +95,7 @@ std::string encoder::decode(std::string i)
         }
 
     }
-    std::cout << "string ikke 10 lang eller 1/0" << std::endl;
+    //std::cout << "string ikke 10 lang eller 1/0" << std::endl;
     return "string ikke 10 lang eller 1/0";
 }
 
