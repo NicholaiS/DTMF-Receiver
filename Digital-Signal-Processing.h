@@ -30,10 +30,7 @@ private:
     sf::Sound sound;
     const sf::Int16* samples;
     std::size_t samplecount;
-//    int BufferSplitterSampleCount;
     int SamplingRate = 44100;
-//    double HighFrequencyBackgroundNoiseCap = 25.0;
-//    double LowFrequencyBackgroundNoiseCap = 2.5;
     double BackgroundNoiseCap = 2.0;
 };
 

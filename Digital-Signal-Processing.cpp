@@ -48,7 +48,6 @@ std::vector<std::vector<double>> DSP::BufferSplitter()
             loader.erase(loader.begin(), loader.end());
         }
     }
-//    BufferSplitterSampleCount = res.size();
     return res;
 }
 
@@ -87,6 +86,7 @@ double DSP::GoertzelAlgorithmForStartBit(int SampelSize, int TargetFreq, const s
     return magnitude;
 }
 
+//Udfase Buffersplitter og bare kør med SFML bufferen. Dobbelt for-looped løser opsplitningen.
 std::vector<double> DSP::GoertzelAlgorithm(int BufferSplitterSampleCount, int TargetFreq, std::vector<std::vector<double>> Data)
 {
     std::vector<double> VectorOfMagnitudes;
@@ -102,18 +102,20 @@ std::vector<double> DSP::GoertzelAlgorithm(int BufferSplitterSampleCount, int Ta
     sine = sin(omega);
     cosine = cos(omega);
     coeff = 2.0 * cosine;
-    s_n = 0;
-    s_nMinus1 = 0;
-    s_nMinus2 = 0;
 
     for(int i = 0; i < Data.size(); i++)
     {
+        s_n = 0;
+        s_nMinus1 = 0;
+        s_nMinus2 = 0;
+
         for(int j = 0; j < Data[i].size(); j++)
         {
-            s_n = (Data[i][j] * (0.54-0.46*cos(2*M_PI*i/Data[i].size()))) + coeff * s_nMinus1 - s_nMinus2;
+            s_n = (Data[i][j] * (0.54 - 0.46 * cos(2*M_PI*i/Data[i].size()))) + coeff * s_nMinus1 - s_nMinus2;
             s_nMinus2 = s_nMinus1;
             s_nMinus1 = s_n;
         }
+
         real = (s_nMinus1 - s_nMinus2 * cosine) / scalingFactor;
         imag = (s_nMinus2 * sine) / scalingFactor;
 
@@ -144,10 +146,6 @@ bool DSP::StartBitTest()
             return true;
             break;
         }
-//        else
-//        {
-//            return false;
-//        }
 
         sound.resetBuffer();
         StartRecording();
@@ -220,12 +218,20 @@ std::string DSP::RecordDSPLoop()
                 {
                     DirectionsInstructions.push_back('1');
                 }
+                else
+                {
+                    DirectionsInstructions.push_back('f');
+                }
                 if(DTMFTest(941, 1633, i))
                 {
                     DirectionsInstructions.push_back('0');
                 }
-//                if(DTMFTest(770, 1336, i))
-//                    break;
+                else
+                {
+                    DirectionsInstructions.push_back('f');
+                }
+                if(DTMFTest(770, 1336, i))
+                    break;
             }
     }
 
