@@ -15,9 +15,10 @@ public:
     void StartRecording();
     void StopRecording();
     std::vector<std::vector<double> > BufferSplitter();
-    double GoertzelAlgorithm(int SampleSize, int TargetFreq, const sf::Int16* Data);
+    std::vector<double> GoertzelAlgorithm(int BufferSplitterSampleCount, int TargetFreq, std::vector<std::vector<double>> Data);
+    double GoertzelAlgorithmForStartBit(int SampelSize, int TargetFreq, const sf::Int16* Data);
     bool StartBitTest();
-    bool DTMFTest(int LowFreq, int HighFreq);
+    bool DTMFTest(int LowFreq, int HighFreq, int BufferCounter);
     std::string RecordDSPLoop();
     void FreqPerceiver();
     void PlaybackTest();
@@ -29,10 +30,11 @@ private:
     sf::Sound sound;
     const sf::Int16* samples;
     std::size_t samplecount;
+//    int BufferSplitterSampleCount;
     int SamplingRate = 44100;
 //    double HighFrequencyBackgroundNoiseCap = 25.0;
 //    double LowFrequencyBackgroundNoiseCap = 2.5;
-    double BackgroundNoiseCap = 500;
+    double BackgroundNoiseCap = 2.0;
 };
 
 #endif // DIGITALSIGNALPROCESSING_H

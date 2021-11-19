@@ -27,7 +27,6 @@ int main()
 
         case 's':
             dsp.PlaybackTest(); //Kan bruges til at teste om din mic virker.
-            dsp.BufferSplitter();
             break;
 
         case 'x':
