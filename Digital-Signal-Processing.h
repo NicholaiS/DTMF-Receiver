@@ -14,6 +14,7 @@ public:
     void FindMic();
     void StartRecording();
     void StopRecording();
+    std::vector<std::vector<double> > BufferSplitter();
     double GoertzelAlgorithm(int SampleSize, int TargetFreq, const sf::Int16* Data);
     bool StartBitTest();
     bool DTMFTest(int LowFreq, int HighFreq);

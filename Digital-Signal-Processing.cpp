@@ -33,16 +33,35 @@ void DSP::StopRecording()
     std::cout << "Recording stopped" << std::endl;
 }
 
+std::vector<std::vector<double>> DSP::BufferSplitter()
+{
+    int bufferSize = (buffer.getSampleCount()/2)/10;
+    std::vector<std::vector<double>> res;
+    std::vector<double> loader;
+
+    std::cout << bufferSize << std::endl;
+
+    for(int i = buffer.getSampleCount()/2; i < buffer.getSampleCount(); i++)
+    {
+        loader.push_back(samples[i]);
+        if(loader.size() == bufferSize)
+        {
+            res.push_back(loader);
+            loader.erase(loader.begin(), loader.end());
+        }
+    }
+    return res;
+}
 
 //Kør trekantet vindues funktion før der kørers Goertzel.
 double DSP::GoertzelAlgorithm(int SampleSize, int TargetFreq, const sf::Int16* Data)
 {
     Data = samples;
-    int      k,i;
-    double   DoubleSampleSize;
-    double   omega, sine, cosine, coeff, s_n, s_nMinus1, s_nMinus2, magnitude, real, imag;
+    int k,i;
+    double DoubleSampleSize;
+    double omega, sine, cosine, coeff, s_n, s_nMinus1, s_nMinus2, magnitude, real, imag;
 
-    double   scalingFactor = SampleSize / 2.0;
+    double scalingFactor = SampleSize / 2.0;
 
     DoubleSampleSize = (double) SampleSize;
     k = (int) (0.5 + ((DoubleSampleSize * TargetFreq) / SamplingRate));
@@ -50,9 +69,9 @@ double DSP::GoertzelAlgorithm(int SampleSize, int TargetFreq, const sf::Int16* D
     sine = sin(omega);
     cosine = cos(omega);
     coeff = 2.0 * cosine;
-    s_n=0;
-    s_nMinus1=0;
-    s_nMinus2=0;
+    s_n = 0;
+    s_nMinus1 = 0;
+    s_nMinus2 = 0;
 
     for(i = 0; i < SampleSize; i++)
     {
@@ -194,6 +213,8 @@ void DSP::PlaybackTest()
     recorder.stop();
     buffer = recorder.getBuffer();
     sound.setBuffer(buffer);
+    samples = buffer.getSamples();
+    samplecount = buffer.getSampleCount();
     std::cout << "Playing back ..." << std::endl;
     sound.play();
     std::cout << "Done ..." << std::endl;
