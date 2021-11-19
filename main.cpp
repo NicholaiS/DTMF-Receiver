@@ -14,7 +14,8 @@ int main()
     {
         std::cout << "w for optagelse." << std::endl;
         std::cout << "s for playback test." << std::endl;
-        std::cout << "x for kontinuert DTMF genkendelses loop (DTMF 0 lukker looped)" << std::endl;
+        std::cout << "x for kontinuert DTMF genkendelses loop (DTMF A lukker looped)" << std::endl;
+        std::cout << "e for singleBuffer test" << std::endl;
         std::cout << "0 for at lukke ned" << std::endl;
         std::cin >> input;
 
@@ -30,6 +31,10 @@ int main()
 
         case 'x':
             std::cout << dsp.RecordDSPLoop() << std::endl; //En kontinuerlig test om der bliver hørt DTMF 0 til 9 hvor DTMF 0 stopper looped.
+            break;
+
+        case 'e':
+            dsp.SingleBufferTest();
             break;
         }
     } while(input!='0');

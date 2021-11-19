@@ -16,9 +16,11 @@ public:
     void StopRecording();
     double GoertzelAlgorithm(int SampleSize, int TargetFreq, const sf::Int16* Data);
     bool StartBitTest();
+    bool DTMFTest(int LowFreq, int HighFreq);
     std::string RecordDSPLoop();
     void FreqPerceiver();
     void PlaybackTest();
+    void SingleBufferTest();
 
 private:
     sf::SoundBufferRecorder recorder;
@@ -27,8 +29,9 @@ private:
     const sf::Int16* samples;
     std::size_t samplecount;
     int SamplingRate = 44100;
-    double HighFrequencyBackgroundNoiseCap = 250.0;
-    double LowFrequencyBackgroundNoiseCap = 30.0;
+//    double HighFrequencyBackgroundNoiseCap = 25.0;
+//    double LowFrequencyBackgroundNoiseCap = 2.5;
+    double BackgroundNoiseCap = 500;
 };
 
 #endif // DIGITALSIGNALPROCESSING_H
