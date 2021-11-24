@@ -31,6 +31,8 @@ int main()
 
         case 'x':
             std::cout << dsp.RecordDSPLoop() << std::endl; //En kontinuerlig test om der bliver hørt DTMF 0 til 9 hvor DTMF 0 stopper looped.
+//            std::cout << dsp.RecordDSPLoop().length() << std::endl;
+//            std::cout << dsp.BufferSplitter().size() << std::endl;
             break;
 
         case 'e':

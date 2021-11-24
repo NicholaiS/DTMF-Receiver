@@ -19,7 +19,8 @@ void DSP::FindMic()
 
 void DSP::StartRecording()
 {
-    recorder.start();
+    unsigned int sampleRate = 44100;
+    recorder.start(sampleRate);
     std::cout << "Recording ..." << std::endl;
 }
 
@@ -35,11 +36,11 @@ void DSP::StopRecording()
 
 std::vector<std::vector<double>> DSP::BufferSplitter()
 {
-    int bufferSize = (buffer.getSampleCount()/2)/10;
+    int bufferSize = (buffer.getSampleCount()*0.6666667)/10;
     std::vector<std::vector<double>> res;
     std::vector<double> loader;
 
-    for(int i = buffer.getSampleCount()/2; i < buffer.getSampleCount(); i++)
+    for(int i = buffer.getSampleCount()/3; i < buffer.getSampleCount(); i++)
     {
         loader.push_back(samples[i]);
         if(loader.size() == bufferSize)
@@ -109,7 +110,7 @@ std::vector<double> DSP::GoertzelAlgorithm(int BufferSplitterSampleCount, int Ta
         s_nMinus1 = 0;
         s_nMinus2 = 0;
 
-        for(int j = 0; j < Data[i].size(); j++)
+        for(int j = 5000; j < Data[i].size()-5000; j++)
         {
             s_n = (Data[i][j] * (0.54 - 0.46 * cos(2*M_PI*i/Data[i].size()))) + coeff * s_nMinus1 - s_nMinus2;
             s_nMinus2 = s_nMinus1;
@@ -141,7 +142,7 @@ bool DSP::StartBitTest()
         DTMF5Mag = GoertzelAlgorithmForStartBit(samplecount, 770, samples) + GoertzelAlgorithmForStartBit(samplecount, 1336, samples);
         DTMF9Mag = GoertzelAlgorithmForStartBit(samplecount, 852, samples) + GoertzelAlgorithmForStartBit(samplecount, 1477, samples);
         DTMFDMag = GoertzelAlgorithmForStartBit(samplecount, 941, samples) + GoertzelAlgorithmForStartBit(samplecount, 1633, samples);
-        if(DTMF1Mag > DTMF5Mag && DTMF1Mag > DTMF9Mag && DTMF1Mag > DTMFDMag && DTMF1Mag > BackgroundNoiseCap)
+        if(DTMF1Mag > DTMF5Mag && DTMF1Mag > DTMF9Mag && DTMF1Mag > DTMFDMag && DTMF1Mag > StartBitBackgroundNoiseCap)
         {
             return true;
             break;
@@ -210,19 +211,16 @@ std::string DSP::RecordDSPLoop()
     {
         std::cout << "Startbit fundet" << std::endl;
             StartRecording();
-            usleep(6000000);
+            usleep(9000000);
             StopRecording();
-            for(int i = 0; i < 11; i++)
+            FilSkriver();
+            for(int i = 0; i < 10; i++)
             {
                 if(DTMFTest(852, 1477, i))
                 {
                     DirectionsInstructions.push_back('1');
                 }
-                else
-                {
-                    DirectionsInstructions.push_back('f');
-                }
-                if(DTMFTest(941, 1633, i))
+                else if(DTMFTest(941, 1633, i))
                 {
                     DirectionsInstructions.push_back('0');
                 }
@@ -231,7 +229,8 @@ std::string DSP::RecordDSPLoop()
                     DirectionsInstructions.push_back('f');
                 }
                 if(DTMFTest(770, 1336, i))
-                    break;
+                    std::cout << "STOPBIT" << std::endl;
+//                    break;
             }
     }
 
@@ -288,21 +287,61 @@ void DSP::SingleBufferTest()
 
         case 'x':
             StartRecording();
-            usleep(8000000);
+            usleep(6000000);
             StopRecording();
             for(int i = 0; i < 10; i++){
-            std::cout << "Magnitude 697: " << GoertzelAlgorithm(samplecount, 697, BufferSplitter())[i] << std::endl;
-            std::cout << "Magnitude 770: " << GoertzelAlgorithm(samplecount, 770, BufferSplitter())[i] << std::endl;
-            std::cout << "Magnitude 852: " << GoertzelAlgorithm(samplecount, 852, BufferSplitter())[i] << std::endl;
-            std::cout << "Magnitude 941: " << GoertzelAlgorithm(samplecount, 941, BufferSplitter())[i] << std::endl;
-            std::cout << "Magnitude 1209: " << GoertzelAlgorithm(samplecount, 1209, BufferSplitter())[i] << std::endl;
-            std::cout << "Magnitude 1336: " << GoertzelAlgorithm(samplecount, 1336, BufferSplitter())[i] << std::endl;
-            std::cout << "Magnitude 1477: " << GoertzelAlgorithm(samplecount, 1477, BufferSplitter())[i] << std::endl;
-            std::cout << "Magnitude 1633: " << GoertzelAlgorithm(samplecount, 1633, BufferSplitter())[i] << std::endl;
-            std::cout << "------------------------------------" << std::endl;
+                std::cout << "Test: " << i << std::endl;
+                std::cout << "Magnitude 697: " << GoertzelAlgorithm(samplecount, 697, BufferSplitter())[i] << std::endl;
+                std::cout << "Magnitude 770: " << GoertzelAlgorithm(samplecount, 770, BufferSplitter())[i] << std::endl;
+                std::cout << "Magnitude 852: " << GoertzelAlgorithm(samplecount, 852, BufferSplitter())[i] << std::endl;
+                std::cout << "Magnitude 941: " << GoertzelAlgorithm(samplecount, 941, BufferSplitter())[i] << std::endl;
+                std::cout << "Magnitude 1209: " << GoertzelAlgorithm(samplecount, 1209, BufferSplitter())[i] << std::endl;
+                std::cout << "Magnitude 1336: " << GoertzelAlgorithm(samplecount, 1336, BufferSplitter())[i] << std::endl;
+                std::cout << "Magnitude 1477: " << GoertzelAlgorithm(samplecount, 1477, BufferSplitter())[i] << std::endl;
+                std::cout << "Magnitude 1633: " << GoertzelAlgorithm(samplecount, 1633, BufferSplitter())[i] << std::endl;
+                std::cout << "------------------------------------" << std::endl;
             }
+
+        case 'q':
+            StopRecording();
+                std::cout << "Magnitude 697: " << GoertzelAlgorithmForStartBit(samplecount, 697, samples) << std::endl;
+                std::cout << "Magnitude 770: " << GoertzelAlgorithmForStartBit(samplecount, 770, samples) << std::endl;
+                std::cout << "Magnitude 852: " << GoertzelAlgorithmForStartBit(samplecount, 852, samples) << std::endl;
+                std::cout << "Magnitude 941: " << GoertzelAlgorithmForStartBit(samplecount, 941, samples) << std::endl;
+                std::cout << "Magnitude 1209: " << GoertzelAlgorithmForStartBit(samplecount, 1209, samples) << std::endl;
+                std::cout << "Magnitude 1336: " << GoertzelAlgorithmForStartBit(samplecount, 1336, samples) << std::endl;
+                std::cout << "Magnitude 1477: " << GoertzelAlgorithmForStartBit(samplecount, 1477, samples) << std::endl;
+                std::cout << "Magnitude 1633: " << GoertzelAlgorithmForStartBit(samplecount, 1633, samples) << std::endl;
+                std::cout << "------------------------------------" << std::endl;
             sound.resetBuffer();
         }
 
     } while(input != '0');
+}
+
+
+void DSP::FilSkriver()
+{
+    std::vector<double> holderfortiddomain;
+
+        for(int i = 0; i < buffer.getSampleCount() - 1; i++)
+        {
+
+            holderfortiddomain.push_back(samples[i]);
+
+
+        }
+
+        const char *path="/home/nicholai/Time_Frequency-Domain_test/TimeDomain";
+        std::ofstream file(path);
+
+
+
+        for(int i = 0; i < holderfortiddomain.size(); i++)
+        {
+            file << i << ", " << holderfortiddomain[i] << "\n";
+        }
+
+
+        file.close();
 }

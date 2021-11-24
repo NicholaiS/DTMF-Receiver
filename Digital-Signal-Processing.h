@@ -2,6 +2,7 @@
 #define DIGITALSIGNALPROCESSING_H
 #include "SFML/Audio.hpp"
 #include <iostream>
+#include <fstream>
 #include <cmath>
 #include <vector>
 #include <string>
@@ -23,6 +24,7 @@ public:
     void FreqPerceiver();
     void PlaybackTest();
     void SingleBufferTest();
+    void FilSkriver();
 
 private:
     sf::SoundBufferRecorder recorder;
@@ -32,6 +34,7 @@ private:
     std::size_t samplecount;
     int SamplingRate = 44100;
     double BackgroundNoiseCap = 2.0;
+    double StartBitBackgroundNoiseCap = 30.0;
 };
 
 #endif // DIGITALSIGNALPROCESSING_H
