@@ -3,8 +3,9 @@
 #include <string>
 #include <bitset>
 #include <vector>
+#include "sound_generator.h"
 
-class encoder
+class encoder : SoundGenerator
 {
 public:
     encoder();
@@ -13,7 +14,7 @@ public:
     int intx(std::string i);
     int inty(std::string i);
     bool encheckstring(std::string i);
-    bool decheckstring(std::string i);
+//    bool decheckstring(std::string i);
     bool decodecheck;
     bool errorcheck(std::string i);
     std::string datawords(int i)

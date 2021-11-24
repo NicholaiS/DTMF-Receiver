@@ -158,30 +158,30 @@ bool encoder::encheckstring(std::string i){
     } else return false;
 }
 
-bool encoder::decheckstring(std::string i){
-    bool tjek1=false, tjek2=false;
-    if(i.size()==(2*k)){
-        tjek1=true;
-    }
+//bool encoder::decheckstring(std::string i){
+//    bool tjek1=false, tjek2=false;
+//    if(i.size()==(2*k)){
+//        tjek1=true;
+//    }
 
-    int h=0;
-    for(int j=0; j<(2*k);j++){
+//    int h=0;
+//    for(int j=0; j<(2*k);j++){
 
-        if(i[j]=='0'||i[j]=='1'){
-            h++;
-        }
-    }
+//        if(i[j]=='0'||i[j]=='1'){
+//            h++;
+//        }
+//    }
 
-    if(h==(2*k)){
-        tjek2=true;
-    }
+//    if(h==(2*k)){
+//        tjek2=true;
+//    }
 
-    if(tjek1&&tjek2){
-        return true;
-    } else {
-        return false;
-    }
-}
+//    if(tjek1&&tjek2){
+//        return true;
+//    } else {
+//        return false;
+//    }
+//}
 
 bool encoder::errorcheck(std::string i)
 {
@@ -242,6 +242,7 @@ bool encoder::errorcheck(std::string i)
             throw(6);   //koden findes ikke på kodelisten
             return false;
         }
+        PlaySingle(697,1209); //DTMF 1
         return true;
     }
     catch(int x)
@@ -259,16 +260,19 @@ bool encoder::errorcheck(std::string i)
             break;
 
         case 3:
+            PlaySingle(852,1477); //DTMF 9
             std::cout<<"message contains invalid characters"<<std::endl;
             return false;
             break;
 
         case 4:
+            PlaySingle(941,1633);//DTMF D
             std::cout<<"Burst bit error"<<std::endl;
             return false;
             break;
 
         case 5:
+            PlaySingle(770,1336); //DTMF 5
             std::cout<<"Single bit error"<<std::endl;
             return false;
             break;

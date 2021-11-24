@@ -33,15 +33,10 @@ void MQTT::messageBot(json j)
 
 json MQTT::styr(double FB, double SS)
 {
-    //std::cout<<currentspeed<<std::endl;
     fasterslow=currentspeed;
-        //std::cout<<fasterslow<<" "<<angle<< "hey1" <<std::endl;
     angle=currentangle;
-    //std::cout<<fasterslow<<" "<<angle<< "hey2" <<std::endl;
     currentspeed=FB/10;
     currentangle=SS/10;
-    //std::cout<<currentspeed<<" current speed"<<std::endl;
-    //std::cout<<currentangle<<" current angle"<<std::endl;
     if(currentspeed>-0.7 && currentspeed<0.7 && currentangle>=-0.7 && currentangle<=0.7)
     {
             json f = {
@@ -54,19 +49,25 @@ json MQTT::styr(double FB, double SS)
 
     }
 
-    else if(currentangle<-0.7 && fasterslow>-0.7)
-        slower();
-    else if(currentspeed<-0.7 && fasterslow<0.7)
-        faster();
+    else if(currentangle<-0.7) //currentangle testen chekker om inputtet er -8 hvor fasterslow checker om den må kører langsommere
+    {
+        json f =slower();
+        return f;
+    }
+    else if(currentspeed<-0.7) //currentspeed testen checker om inputtet er -8 hvor fasterslow ser om den må kører hurtigere
+    {
+        json f = faster();
+        return f;
+    }
+    else
+        throw(1);
 
 }
 
-void MQTT::faster()
+json MQTT::faster()
 {
-    //std::cout<<"hastigheden før: "<<currentspeed<<std::endl;
-    if(currentspeed<0.7  )
+    if(fasterslow<0.7)
     {
-        //std::cout<<angle<<" vinkel "<<fasterslow<<" hastighed "<<std::endl;
         fasterslow=fasterslow*10;
         fasterslow=fasterslow+1;
         fasterslow=fasterslow/10;
@@ -77,12 +78,26 @@ void MQTT::faster()
         messageBot(f);
         std::cout<<f<<std::endl;
         currentspeed=fasterslow;
+        currentangle=angle;
+        return f;
+    }
+    else
+    {
+        json f = {
+            {"linear", {{"x", fasterslow}, {"y",0},{"z",0}}},
+            {"angular", {{"x", 0}, {"y",0},{"z", angle}}}
+        };
+        messageBot(f);
+        std::cout<<f<<std::endl;
+        currentspeed=fasterslow;
+        currentangle=angle;
+        throw(2);
     }
 }
 
-void MQTT::slower()
+json MQTT::slower()
 {
-    if(currentangle<0.7 && angle>-0.7)
+    if(fasterslow>-0.7)
     {
         fasterslow=fasterslow*10;
         fasterslow=fasterslow-1;
@@ -92,113 +107,89 @@ void MQTT::slower()
             {"angular", {{"x", 0}, {"y",0},{"z", angle}}}
         };
         std::cout<<f<<std::endl;
-        messageBot(f);
         currentspeed=fasterslow;
         currentangle=angle;
+        return f;
     }
-    //std::cout<<currentspeed<<std::endl;
+    else
+    {
+        json f = {
+            {"linear", {{"x", fasterslow}, {"y",0},{"z",0}}},
+            {"angular", {{"x", 0}, {"y",0},{"z", angle}}}
+        };
+        messageBot(f);
+        std::cout<<f<<std::endl;
+        currentspeed=fasterslow;
+        currentangle=angle;
+        throw(3);
+    }
 }
-
-
-
-//json MQTT::movement(direction d)
-//{
-//    switch(d)
-//    {
-//    case FORWARD:
-//    {
-//        json f = {
-//            {"linear", {{"x", -0.2}, {"y", 0}, {"z", 0}}},
-//            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
-//        };
-//        return f;
-//        break;
-//    }
-
-//    case BACKWARDS:
-//    {
-//        json b = {
-//            {"linear", {{"x", 0.2}, {"y", 0}, {"z", 0}}},
-//            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
-//        };
-//        return b;
-//        break;
-//    }
-
-//    case RIGHT:
-//    {
-//        json r = {
-//            {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
-//            {"angular", {{"x", 0}, {"y", 0}, {"z", -0.5}}}
-//        };
-//        return r;
-//        break;
-//    }
-
-//    case LEFT:
-//    {
-//        json l = {
-//            {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
-//            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.5}}}
-//        };
-//        return l;
-//        break;
-//    }
-
-//    case STOP:
-//    {
-//        json s = {
-//            {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
-//            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
-//        };
-//        return s;
-//        break;
-//    }
-
-//    default:
-//    {
-//        json d = {
-//            {"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
-//            {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
-//        };
-//        return d;
-//        break;
-//    }
-//    }
-//}
-
 
 void MQTT::run(MQTT ex)
 {
-    bool connected = ex.connect();
-    std::cout << "Connected: " << connected << std::endl;
-    DSP dsp;
-    std::string wtf;
-    dsp.FindMic();
-    std::cout << "Ready to run." << std::endl;
-    styr(0,0);
-    //std::cout << "w, a, s, d to control, q to stop the robot and 0 to exit." << std::endl;
-//    char input;
-    do
-    {
-        //wtf="11011011000";
-//        std::cin>>input;
-        wtf = dsp.RecordDSPLoop();
 
-        if(errorcheck(wtf))
+        //bool connected = ex.connect();
+        //std::cout << "Connected: " << connected << std::endl;
+        DSP dsp;
+        std::string wtf;
+        dsp.FindMic();
+        std::cout << "Ready to run." << std::endl;
+        ex.messageBot(styr(0,0));
+//        int test = 0;
+        do
         {
+            try
+            {
+//                test++;
+//                if(test>10)
+//                    wtf="0110010001";
+//                else
+//                    wtf="1000101100";
+                wtf = dsp.RecordDSPLoop();
 
-            ex.messageBot(styr(inty(decode(wtf)),intx(decode(wtf))));
+                if(errorcheck(wtf))
+                {
 
-        }
-        break;
-    } while(1);
+                    ex.messageBot(styr(inty(decode(wtf)),intx(decode(wtf))));
+                    //test++;
+                }
+                else
+                {
+                    ex.messageBot(styr(0,0));
+                    break;
+                }
+            }
+            catch(int x)
+            {
+                switch(x)
+                {
+                case 1:
+                    std::cout<<"forstod intet"<<std::endl;
+                    break;
+
+                case 2:
+                    std::cout<<"kan ikke kører hurtigere"<<std::endl;
+                    break;
+
+                case 3:
+                    std::cout<<"kan ikke kører langsommere"<<std::endl;
+                    break;
+                }
+            }
+
+
+
+        } while(1/*test<40*/);
+//        wtf="0001001100";
+//        if(errorcheck(wtf))
+//        {
+
+//            ex.messageBot(styr(inty(decode(wtf)),intx(decode(wtf))));
+//        }
+//        std::cout<<"nice"<<std::endl;
+
 }
 
-//void MQTT::DirectionDecider(std::string d)
-//{
-//    std::cout << d << std::endl;
-//}
 
 //void MQTT::signalHandler(int s)
 //{

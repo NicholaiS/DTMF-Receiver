@@ -11,5 +11,5 @@ find_package(PahoMqttCpp REQUIRED)
 include_directories("/usr/include/nlohmann/" "usr/include/SFML/" "usr/include/")
 link_directories("/usr/lib/x86_64-linux-gnu/")
 
-add_executable(DTMF-Receiver main.cpp MQTT-Movement.cpp MQTT-Movement.h Digital-Signal-Processing.cpp Digital-Signal-Processing.h encoder.cpp encoder.h)
+add_executable(DTMF-Receiver main.cpp MQTT-Movement.cpp MQTT-Movement.h Digital-Signal-Processing.cpp Digital-Signal-Processing.h encoder.cpp encoder.h sound_generator.h sound_generator.cpp)
 target_link_libraries(DTMF-Receiver PahoMqttCpp::paho-mqttpp3 libsfml-audio.so)

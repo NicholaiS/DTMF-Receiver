@@ -24,15 +24,18 @@ class MQTT : encoder//, DSP
 {
 public:
     MQTT (){}
-    MQTT(mqtt::async_client& client, mqtt::topic& message) : cli(&client), mes(&message){}
+    MQTT(mqtt::async_client& client, mqtt::topic& message) : cli(&client), mes(&message)
+    {
+
+    }
     bool connect();
     void messageBot(json j);
 //    void DirectionDecider(std::string d);
     json movement(direction d);
     void run(MQTT ex);
     json styr(double FB, double SS);
-    void faster();
-    void slower();
+    json faster();
+    json slower();
     ~MQTT (){}
 
 private:
