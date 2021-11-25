@@ -158,31 +158,6 @@ bool encoder::encheckstring(std::string i){
     } else return false;
 }
 
-//bool encoder::decheckstring(std::string i){
-//    bool tjek1=false, tjek2=false;
-//    if(i.size()==(2*k)){
-//        tjek1=true;
-//    }
-
-//    int h=0;
-//    for(int j=0; j<(2*k);j++){
-
-//        if(i[j]=='0'||i[j]=='1'){
-//            h++;
-//        }
-//    }
-
-//    if(h==(2*k)){
-//        tjek2=true;
-//    }
-
-//    if(tjek1&&tjek2){
-//        return true;
-//    } else {
-//        return false;
-//    }
-//}
-
 bool encoder::errorcheck(std::string i)
 {
     int paritycheck1=0;
@@ -229,7 +204,6 @@ bool encoder::errorcheck(std::string i)
         }
         int b1=0;
         int b2=0;
-        //std::cout<<f1<<" "<<f2<<std::endl;
         for(int l=0;l<16;l++)
         {
             if(f1==kodewords(l))

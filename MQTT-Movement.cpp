@@ -44,6 +44,7 @@ json MQTT::styr(double FB, double SS)
                 {"angular", {{"x", 0}, {"y",0},{"z", currentangle}}}
             };
             std::cout<<f<<std::endl;
+
             return f;
 
 
@@ -128,8 +129,8 @@ json MQTT::slower()
 void MQTT::run(MQTT ex)
 {
 
-        //bool connected = ex.connect();
-        //std::cout << "Connected: " << connected << std::endl;
+        bool connected = ex.connect();
+        std::cout << "Connected: " << connected << std::endl;
         DSP dsp;
         std::string wtf;
         dsp.FindMic();
@@ -140,11 +141,6 @@ void MQTT::run(MQTT ex)
         {
             try
             {
-//                test++;
-//                if(test>10)
-//                    wtf="0110010001";
-//                else
-//                    wtf="1000101100";
                 wtf = dsp.RecordDSPLoop();
 
                 if(errorcheck(wtf))
@@ -180,14 +176,7 @@ void MQTT::run(MQTT ex)
 
 
         } while(1/*test<40*/);
-//        wtf="0001001100";
-//        if(errorcheck(wtf))
-//        {
-
-//            ex.messageBot(styr(inty(decode(wtf)),intx(decode(wtf))));
-//        }
-//        std::cout<<"nice"<<std::endl;
-
+        ex.messageBot(styr(0,0));
 }
 
 
