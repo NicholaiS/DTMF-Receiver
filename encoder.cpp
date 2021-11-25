@@ -158,10 +158,91 @@ bool encoder::encheckstring(std::string i){
     } else return false;
 }
 
+bool encoder::parityCheck1(std::string p)
+{
+    int paritychek=0;
+
+    for(int i=0;i<p.size()/2;i++)
+    {
+        //std::cout<<i<<std::endl;
+        if(p[i]=='1')
+            paritychek++;
+    }
+    if(paritychek%2==0)
+        return false;
+    return true;
+
+}
+bool encoder::parityCheck2(std::string p)
+{
+        int paritychek=0;
+
+        for(int i=p.size()/2;i<p.size();i++)
+        {
+            //std::cout<<i<<std::endl;
+            if(p[i]=='1')
+                paritychek++;
+        }
+        if(paritychek%2==0)
+            return false;
+        return true;
+}
+
+std::string encoder::falseChar(std::string p)
+{
+    int amountOfF1=0;
+    int amountOfF2=0;
+    int placeOfF1;
+    int placeOfF2;
+    for(int i=0; i<p.size();i++)
+    {
+        if(p[i]=='f')
+        {
+
+            if(i<p.size()/2)
+            {
+                amountOfF1++;
+                placeOfF1=i;
+            }
+            else
+            {
+                amountOfF2++;
+                placeOfF2=i;
+            }
+        }
+    }
+
+    if(amountOfF1>1 || amountOfF2>1)
+    {
+        std::cout<<"BURSTBIT"<<std::endl;
+        return 0;
+    }
+    if(amountOfF1==1)
+    {
+        if(parityCheck1(p))
+        {
+            p[placeOfF1]='1';
+        }
+        else
+            p[placeOfF1]='0';
+    }
+    if(amountOfF2==1)
+    {
+        if(parityCheck2(p))
+        {
+            p[placeOfF2]='1';
+        }
+        else
+            p[placeOfF2]='0';
+
+    }
+    return p;
+}
+
 bool encoder::errorcheck(std::string i)
 {
-    int paritycheck1=0;
-    int paritycheck2=0;
+//    int paritycheck1=0;
+//    int paritycheck2=0;
     std::string f1;
     std::string f2;
     try
@@ -176,27 +257,29 @@ bool encoder::errorcheck(std::string i)
         }
         for(int j=0; j<i.size();j++)
         {
-            if(i[j]!='0' && i[j]!='1')
-            {
-                throw(3);   //beskeden indeholder en character der ikke er 1 eller 0
-                return false;
-            }
+//            if(i[j]!='f')
+//            {
+//                std::cout<<"inkluderer f"<<std::endl;
+//                throw(3);   //beskeden indeholder en character der ikke er 1 eller 0
+//                return false;
+//            }
             if(j<k)
             {
-                if(i[j]=='1')
-                    paritycheck1++;
+//                if(i[j]=='1')
+//                    paritycheck1++;
                 f1+=i[j];
             }
             else
             {
-                if(i[j]=='1')
-                    paritycheck2++;
+//                if(i[j]=='1')
+//                    paritycheck2++;
                 f2+=i[j];
             }
         }
-        if(paritycheck1%2!=0 || paritycheck2%2!=0)
+
+        if(parityCheck1(i)||parityCheck2(i))
         {
-            if(paritycheck1%2!=0 && paritycheck2%2!=0)
+            if(parityCheck1(i) && parityCheck2(i))
                 throw(4);   //Burst bit fejl
             else
                 throw(5);   //single bit fejl

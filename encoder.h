@@ -14,7 +14,9 @@ public:
     int intx(std::string i);
     int inty(std::string i);
     bool encheckstring(std::string i);
-//    bool decheckstring(std::string i);
+    bool parityCheck1(std::string p);
+    bool parityCheck2(std::string p);
+    std::string falseChar(std::string p);
     bool decodecheck;
     bool errorcheck(std::string i);
     std::string datawords(int i)
@@ -32,7 +34,7 @@ private:
     int k=5;
     int fejl;
     int fb;
-    int ss;
+    int ss;    
 };
 
 #endif // ENCODER_H

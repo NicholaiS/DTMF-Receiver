@@ -36,6 +36,7 @@ public:
     json styr(double FB, double SS);
     json faster();
     json slower();
+
     ~MQTT (){}
 
 private:
