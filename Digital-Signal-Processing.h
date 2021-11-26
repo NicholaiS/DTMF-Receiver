@@ -2,6 +2,7 @@
 #define DIGITALSIGNALPROCESSING_H
 #include "SFML/Audio.hpp"
 #include <iostream>
+#include <fstream>
 #include <cmath>
 #include <vector>
 #include <string>
@@ -14,11 +15,16 @@ public:
     void FindMic();
     void StartRecording();
     void StopRecording();
-    double GoertzelAlgorithm(int SampleSize, int TargetFreq, const sf::Int16* Data);
+    std::vector<std::vector<double> > BufferSplitter();
+    std::vector<double> GoertzelAlgorithm(int BufferSplitterSampleCount, int TargetFreq, std::vector<std::vector<double>> Data);
+    double GoertzelAlgorithmForStartBit(int SampelSize, int TargetFreq, const sf::Int16* Data);
     bool StartBitTest();
+    bool DTMFTest(int LowFreq, int HighFreq, int BufferCounter);
     std::string RecordDSPLoop();
     void FreqPerceiver();
     void PlaybackTest();
+    void SingleBufferTest();
+    void FilSkriver();
 
 private:
     sf::SoundBufferRecorder recorder;
@@ -27,8 +33,8 @@ private:
     const sf::Int16* samples;
     std::size_t samplecount;
     int SamplingRate = 44100;
-    double HighFrequencyBackgroundNoiseCap = 10.0;
-    double LowFrequencyBackgroundNoiseCap = 0.1;
+    double BackgroundNoiseCap = 3.0;
+    double StartBitBackgroundNoiseCap = 100.0;
 };
 
 #endif // DIGITALSIGNALPROCESSING_H

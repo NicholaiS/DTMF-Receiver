@@ -136,9 +136,9 @@ void MQTT::run(MQTT ex)
         dsp.FindMic();
         std::cout << "Ready to run." << std::endl;
         ex.messageBot(styr(1,0));
-        int test = 1;
-
-        if(test==1)
+        char test;
+        std::cin>>test;
+        if(test=='1')
         {
             char input;
             do

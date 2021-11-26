@@ -18,57 +18,14 @@ void setupAndRun()
 
 int main()
 {
-//    setupAndRun();
-//    std::vector<std::string> availableDevices = sf::SoundRecorder::getAvailableDevices();
-//    for(int i=0; i<availableDevices.size();i++)
-//        std::cout <<availableDevices.at(i) << std::endl;
-    encoder t;
+    setupAndRun();
+    std::vector<std::string> availableDevices = sf::SoundRecorder::getAvailableDevices();
+    for(int i=0; i<availableDevices.size();i++)
+        std::cout <<availableDevices.at(i) << std::endl;
+//    encoder t;
 //    if(t.parityCheck1("01f0100000"))
 //        std::cout<<"nice"<<std::endl;
 //    t.parityCheck2("0110100000");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    std::cout<<t.falseChar("0101100f10")<<std::endl;
-
-
-
-
-
-
-
-
-
-
-
-
-
+//    std::cout<<t.falseChar("0101100f10")<<std::endl;
 }
 
