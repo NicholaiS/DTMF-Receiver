@@ -132,7 +132,6 @@ bool DSP::StartBitTest()
 {
     std::cout << "Waiting for start bit" << std::endl;
     double DTMF1Mag;
-    double DTMF5Mag;
     double DTMF9Mag;
     double DTMFDMag;
     do
@@ -141,10 +140,9 @@ bool DSP::StartBitTest()
         StopRecording();
         //DTMFTest For Start Bittet:
         DTMF1Mag = GoertzelAlgorithmForStartBit(samplecount, 697, samples) + GoertzelAlgorithmForStartBit(samplecount, 1209, samples);
-        DTMF5Mag = GoertzelAlgorithmForStartBit(samplecount, 770, samples) + GoertzelAlgorithmForStartBit(samplecount, 1336, samples);
         DTMF9Mag = GoertzelAlgorithmForStartBit(samplecount, 852, samples) + GoertzelAlgorithmForStartBit(samplecount, 1477, samples);
         DTMFDMag = GoertzelAlgorithmForStartBit(samplecount, 941, samples) + GoertzelAlgorithmForStartBit(samplecount, 1633, samples);
-        if(DTMF1Mag > DTMF5Mag && DTMF1Mag > DTMF9Mag && DTMF1Mag > DTMFDMag && DTMF1Mag > StartBitBackgroundNoiseCap)
+        if(DTMF1Mag > DTMF9Mag && DTMF1Mag > DTMFDMag && DTMF1Mag > StartBitBackgroundNoiseCap)
         {
             return true;
             break;
@@ -160,8 +158,6 @@ bool DSP::DTMFTest(int LowFreq, int HighFreq, int BufferCounter)
     int input = LowFreq + HighFreq;
     double DTMF1Mag = GoertzelAlgorithm(samplecount, 697, BufferSplitter())[BufferCounter] +
             GoertzelAlgorithm(samplecount, 1209, BufferSplitter())[BufferCounter];
-    double DTMF5Mag = GoertzelAlgorithm(samplecount, 770, BufferSplitter())[BufferCounter] +
-            GoertzelAlgorithm(samplecount, 1336, BufferSplitter())[BufferCounter];
     double DTMF9Mag = GoertzelAlgorithm(samplecount, 852, BufferSplitter())[BufferCounter] +
             GoertzelAlgorithm(samplecount, 1477, BufferSplitter())[BufferCounter];
     double DTMFDMag = GoertzelAlgorithm(samplecount, 941, BufferSplitter())[BufferCounter] +
@@ -170,28 +166,21 @@ bool DSP::DTMFTest(int LowFreq, int HighFreq, int BufferCounter)
     switch(input)
     {
     case 1906:
-        if(DTMF1Mag > DTMF5Mag && DTMF1Mag > DTMF9Mag && DTMF1Mag > DTMFDMag && DTMF1Mag > BackgroundNoiseCap)
-            return true;
-        else
-            return false;
-        break;
-
-    case 2106:
-        if(DTMF5Mag > DTMF1Mag && DTMF5Mag > DTMF9Mag && DTMF5Mag > DTMFDMag && DTMF5Mag > BackgroundNoiseCap)
+        if(DTMF1Mag > DTMF9Mag && DTMF1Mag > DTMFDMag && DTMF1Mag > BackgroundNoiseCap)
             return true;
         else
             return false;
         break;
 
     case 2329:
-        if(DTMF9Mag > DTMF1Mag && DTMF9Mag > DTMF5Mag && DTMF9Mag > DTMFDMag && DTMF9Mag > BackgroundNoiseCap)
+        if(DTMF9Mag > DTMF1Mag && DTMF9Mag > DTMFDMag && DTMF9Mag > BackgroundNoiseCap)
             return true;
         else
             return false;
         break;
 
     case 2574:
-        if(DTMFDMag > DTMF1Mag && DTMFDMag > DTMF5Mag && DTMFDMag > DTMF9Mag && DTMFDMag > BackgroundNoiseCap)
+        if(DTMFDMag > DTMF1Mag && DTMFDMag > DTMF9Mag && DTMFDMag > BackgroundNoiseCap)
             return true;
         else
             return false;
@@ -230,9 +219,6 @@ std::string DSP::RecordDSPLoop()
                 {
                     DirectionsInstructions.push_back('f');
                 }
-                if(DTMFTest(770, 1336, i))
-                    std::cout << "STOPBIT" << std::endl;
-//                    break;
             }
     }
 
