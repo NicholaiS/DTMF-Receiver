@@ -36,11 +36,11 @@ void DSP::StopRecording()
 
 std::vector<std::vector<double>> DSP::BufferSplitter()
 {
-    int bufferSize = (buffer.getSampleCount()*0.6666667)/10;
+    int bufferSize = (buffer.getSampleCount()*0.73167045)/10;
     std::vector<std::vector<double>> res;
     std::vector<double> loader;
 
-    for(int i = buffer.getSampleCount()/3; i < buffer.getSampleCount(); i++)
+    for(int i = buffer.getSampleCount()*0.26832955; i < buffer.getSampleCount(); i++)
     {
         loader.push_back(samples[i]);
         if(loader.size() == bufferSize)
@@ -109,8 +109,10 @@ std::vector<double> DSP::GoertzelAlgorithm(int BufferSplitterSampleCount, int Ta
         s_n = 0;
         s_nMinus1 = 0;
         s_nMinus2 = 0;
+        real = 0;
+        imag = 0;
 
-        for(int j = 5000; j < Data[i].size()-5000; j++)
+        for(int j = 4000; j < Data[i].size() - 2000; j++)
         {
             s_n = (Data[i][j] * (0.54 - 0.46 * cos(2*M_PI*i/Data[i].size()))) + coeff * s_nMinus1 - s_nMinus2;
             s_nMinus2 = s_nMinus1;
@@ -211,7 +213,7 @@ std::string DSP::RecordDSPLoop()
     {
         std::cout << "Startbit fundet" << std::endl;
             StartRecording();
-            usleep(9000000);
+            usleep(3000000);
             StopRecording();
             FilSkriver();
             for(int i = 0; i < 10; i++)
@@ -287,7 +289,7 @@ void DSP::SingleBufferTest()
 
         case 'x':
             StartRecording();
-            usleep(6000000);
+            usleep(3000000);
             StopRecording();
             for(int i = 0; i < 10; i++){
                 std::cout << "Test: " << i << std::endl;
