@@ -13,6 +13,7 @@ class DSP
 public:
     DSP();
     void FindMic();
+
     void StartRecording();
     void StopRecording();
     std::vector<std::vector<double> > BufferSplitter();

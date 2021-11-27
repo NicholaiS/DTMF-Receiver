@@ -136,23 +136,23 @@ void MQTT::run(MQTT ex)
         dsp.FindMic();
         std::cout << "Ready to run." << std::endl;
         ex.messageBot(styr(1,0));
-        char test;
-        std::cin>>test;
-        if(test=='1')
-        {
-            char input;
-            do
-            {
-                std::cin>>input;
-                if(input=='w')
-                    dsp.StartRecording();
-                else if(input=='s')
-                    dsp.StopRecording();
-                else if(input=='d')
-                    dsp.PlaybackTest();
-            }while(input!='0');
-        }
-        else{
+//        char test;
+//        std::cin>>test;
+//        if(test=='1')
+//        {
+//            char input;
+//            do
+//            {
+//                std::cin>>input;
+//                if(input=='w')
+//                    dsp.StartRecording();
+//                else if(input=='s')
+//                    dsp.StopRecording();
+//                else if(input=='d')
+//                    dsp.PlaybackTest();
+//            }while(input!='0');
+//        }
+//        else{
         do
         {
             try
@@ -161,8 +161,11 @@ void MQTT::run(MQTT ex)
 
                 if(errorcheck(wtf))
                 {
-
-                    ex.messageBot(styr(inty(decode(falseChar(wtf))),intx(decode(falseChar(wtf)))));
+                    int frem =inty(decode(falseChar(wtf)));
+                    int side =intx(decode(falseChar(wtf)));
+                    ex.messageBot(styr(side,frem));
+                    ex.messageBot(styr(side,frem));
+                    ex.messageBot(styr(side,frem));
                     //test++;
                 }
                 else
@@ -192,7 +195,7 @@ void MQTT::run(MQTT ex)
 
 
         } while(1/*test<40*/);
-        }
+//        }
         ex.messageBot(styr(0,0));
 }
 

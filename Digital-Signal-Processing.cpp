@@ -14,8 +14,11 @@ void DSP::FindMic()
     else
     {
         std::cout << "Microphone found" << std::endl;
+        std::cout << sf::SoundBufferRecorder::getDefaultDevice() << std::endl;
     }
 }
+
+
 
 void DSP::StartRecording()
 {
