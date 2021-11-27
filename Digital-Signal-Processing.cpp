@@ -15,6 +15,13 @@ void DSP::FindMic()
     {
         std::cout << "Microphone found" << std::endl;
         std::cout << sf::SoundBufferRecorder::getDefaultDevice() << std::endl;
+
+        std::vector<std::string> devices;
+               devices= sf::SoundBufferRecorder::getAvailableDevices();
+               for (int i = 0; i < devices.size(); i++)
+               {
+                   std::cout <<devices[i] <<std::endl;
+               }
     }
 }
 
