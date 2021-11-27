@@ -299,7 +299,9 @@ bool encoder::errorcheck(std::string i)
             throw(6);   //koden findes ikke på kodelisten
             return false;
         }
-        PlaySingle(697,1209); //DTMF 1
+        PlaySingle(697,1209); //DTMF 1 Disse 3 lyde sørger for at sende "Det hele Kører fint!!!"
+//        PlaySingle(697,1209); //DTMF 1
+//        PlaySingle(697,1209); //DTMF 1
         return true;
     }
     catch(int x)
@@ -317,20 +319,21 @@ bool encoder::errorcheck(std::string i)
             break;
 
         case 3:
-            PlaySingle(852,1477); //DTMF 9
             std::cout<<"message contains invalid characters"<<std::endl;
             return false;
             break;
 
         case 4:
-            PlaySingle(941,1633);//DTMF D
+            PlaySingle(852,1477); //DTMF 9     siger til hvis der er mere end 1 f i enten de første 5 eller de sidste 5 bits
+//            PlaySingle(697,1209); //DTMF 1
+
             std::cout<<"Burst bit error"<<std::endl;
             return false;
             break;
 
         case 5:
-            PlaySingle(770,1336); //DTMF 5
-            std::cout<<"Single bit error"<<std::endl;
+            PlaySingle(941,1633); //DTMF D      Parity bit forkert i en af de 2 bits
+            std::cout<<"Parity bit error"<<std::endl;
             return false;
             break;
 
