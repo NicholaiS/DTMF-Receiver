@@ -44,8 +44,8 @@ if(encheckstring(i)){
 
 std::string encoder::decode(std::string i)
 {
-    if(errorcheck(i))
-    {
+    //if(errorcheck(i))
+    //{
         std::string sh1, sh2, fs;
 
         int tael=0;
@@ -94,7 +94,7 @@ std::string encoder::decode(std::string i)
             decodecheck=false;
         }
 
-    }
+    //}
     //std::cout << "string ikke 10 lang eller 1/0" << std::endl;
     return "string ikke 10 lang eller 1/0";
 }
@@ -302,6 +302,7 @@ bool encoder::errorcheck(std::string i)
         PlaySingle(697,1209); //DTMF 1 Disse 3 lyde sørger for at sende "Det hele Kører fint!!!"
 //        PlaySingle(697,1209); //DTMF 1
 //        PlaySingle(697,1209); //DTMF 1
+        std::cout << "snilt" <<std::endl;
         return true;
     }
     catch(int x)
