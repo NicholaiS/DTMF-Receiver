@@ -20,8 +20,9 @@ void DSP::FindMic()
                devices= sf::SoundBufferRecorder::getAvailableDevices();
                for (int i = 0; i < devices.size(); i++)
                {
-                   std::cout <<devices[i] <<std::endl;
+                   std::cout <<devices[i] <<" nummer: "<< i <<std::endl;
                }
+
     }
 }
 
