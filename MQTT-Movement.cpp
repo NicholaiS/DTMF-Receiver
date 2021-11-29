@@ -37,7 +37,7 @@ json MQTT::styr(double FB, double SS)
     angle=currentangle;
     currentspeed=FB/10;
     currentangle=SS/10;
-    if(currentspeed>-0.7 && currentspeed<0.7 && currentangle>=-0.7 && currentangle<=0.7)
+    if(currentspeed>-0.701 && currentspeed<0.701 && currentangle>=-0.701 && currentangle<=0.701)
     {
             json f = {
                 {"linear", {{"x", currentspeed}, {"y",0},{"z",0}}},
