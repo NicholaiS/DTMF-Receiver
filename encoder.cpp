@@ -215,7 +215,6 @@ std::string encoder::falseChar(std::string p)
     if(amountOfF1>1 || amountOfF2>1)
     {
         std::cout<<"BURSTBIT"<<std::endl;
-        return 0;
     }
     if(amountOfF1==1)
     {
@@ -243,6 +242,7 @@ bool encoder::errorcheck(std::string i)
 {
 //    int paritycheck1=0;
 //    int paritycheck2=0;
+    std::cout << i <<std::endl;
     std::string f1;
     std::string f2;
     try
@@ -253,7 +253,7 @@ bool encoder::errorcheck(std::string i)
                 throw(1); //ikke rigtig størrelse besked
             else
                 throw(2);
-            return false;
+//            return false;
         }
         for(int j=0; j<i.size();j++)
         {
@@ -283,7 +283,7 @@ bool encoder::errorcheck(std::string i)
                 throw(4);   //Burst bit fejl
             else
                 throw(5);   //single bit fejl
-            return false;
+//            return false;
         }
         int b1=0;
         int b2=0;
@@ -296,11 +296,11 @@ bool encoder::errorcheck(std::string i)
         }
         if(b1!=1&&b2!=1)
         {
-            std::cout <<b1<<b2<<std::endl;
+//            std::cout <<b1<<b2<<std::endl;
             throw(6);   //koden findes ikke på kodelisten
-            return false;
+//            return false;
         }
-        PlaySingle(697,1209); //DTMF 1 Disse 3 lyde sørger for at sende "Det hele Kører fint!!!"
+
 //        PlaySingle(697,1209); //DTMF 1
 //        PlaySingle(697,1209); //DTMF 1
         std::cout << "snilt" <<std::endl;
@@ -310,6 +310,9 @@ bool encoder::errorcheck(std::string i)
     {
         switch(x)
         {
+        default:
+            PlaySingle(697,1209); //DTMF 1 Disse 3 lyde sørger for at sende "Det hele Kører fint!!!"
+            break;
         case 1:
             std::cout<<"Too few bits"<<std::endl;
             return false;

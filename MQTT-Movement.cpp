@@ -163,12 +163,12 @@ void MQTT::run(MQTT ex)
                 {
                     int frem =inty(decode(falseChar(wtf)));
                     int side =intx(decode(falseChar(wtf)));
-                    int afstand =currentspeed*10;
-                    for(int i=0;i<afstand;i++)
-                    {
+//                    int afstand =currentspeed*10;
+//                    for(int i=0;i<afstand;i++)
+//                    {
                         ex.messageBot(styr(side,frem));
                         std::cout <<" jaaa taaaak " << std::endl;
-                    }
+//                    }
                     ex.messageBot(styr(side,frem));
 //                    ex.messageBot(styr(side,frem));
                     //test++;

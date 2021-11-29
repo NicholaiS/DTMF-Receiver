@@ -34,7 +34,7 @@ private:
     const sf::Int16* samples;
     std::size_t samplecount;
     int SamplingRate = 44100;
-    double BackgroundNoiseCap = 3.0;
+    double BackgroundNoiseCap = 0.2;
     double StartBitBackgroundNoiseCap = 100.0;
 };
 
