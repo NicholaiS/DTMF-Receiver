@@ -7,6 +7,7 @@ DSP::DSP()
 
 void DSP::FindMic()
 {
+    int brugMic;
     if(!sf::SoundBufferRecorder::isAvailable())
     {
         std::cout << "No microphone is available." << std::endl;
@@ -22,7 +23,12 @@ void DSP::FindMic()
                {
                    std::cout <<devices[i] <<" nummer: "<< i <<std::endl;
                    if(devices[i]=="USB Audio Device Mono")
-                       std::cout<<"FANDT DEN!!!!!!!"<<std::endl;
+                   {
+                       if(!recorder.setDevice(devices[i]))
+                       {
+
+                       }
+                   }
                }
 
     }
