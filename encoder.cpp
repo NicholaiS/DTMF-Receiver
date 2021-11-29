@@ -304,16 +304,18 @@ bool encoder::errorcheck(std::string i)
 //        PlaySingle(697,1209); //DTMF 1
 //        PlaySingle(697,1209); //DTMF 1
         std::cout << "snilt" <<std::endl;
-        return true;
+//        return true;
     }
     catch(int x)
     {
-        if(x!=1||x!=2||x!=3||x!=4||x!=5||x!=6)
-            PlaySingle(697,1209);
+//        if(x!=1||x!=2||x!=3||x!=4||x!=5||x!=6)
+//            PlaySingle(697,1209);
         switch(x)
         {
         default:
             PlaySingle(697,1209); //DTMF 1 Disse 3 lyde sørger for at sende "Det hele Kører fint!!!"
+            std::cout << "DTMF 1" <<std::endl;
+            return true;
             break;
         case 1:
             std::cout<<"Too few bits"<<std::endl;
