@@ -163,7 +163,7 @@ void MQTT::run(MQTT ex)
                 {
                     int frem =inty(decode(falseChar(wtf)));
                     int side =intx(decode(falseChar(wtf)));
-                    for(double i=0;i<currentspeed*10;i++)
+                    for(int i=0;i<(currentspeed*10);i++)
                     {
                         ex.messageBot(styr(side,frem));
                     }
