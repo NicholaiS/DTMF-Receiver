@@ -296,6 +296,7 @@ bool encoder::errorcheck(std::string i)
         }
         if(b1!=1&&b2!=1)
         {
+            std::cout <<b1<<b2<<std::endl;
             throw(6);   //koden findes ikke på kodelisten
             return false;
         }
