@@ -21,6 +21,8 @@ void DSP::FindMic()
                for (int i = 0; i < devices.size(); i++)
                {
                    std::cout <<devices[i] <<" nummer: "<< i <<std::endl;
+                   if(devices[i]=="USB Audio Device Mono")
+                       std::cout<<"FANDT DEN!!!!!!!"<<std::endl;
                }
 
     }
