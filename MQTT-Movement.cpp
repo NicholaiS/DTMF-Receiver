@@ -140,21 +140,21 @@ void MQTT::run(MQTT ex)
         ex.messageBot(styr(0,0));
         char test=0;
         //std::cin>>test;
-        if(test=='1')
-        {
-            char input;
-            do
-            {
-                std::cin>>input;
-                if(input=='w')
-                    dsp.StartRecording();
-                else if(input=='s')
-                    dsp.StopRecording();
-                else if(input=='d')
-                    dsp.PlaybackTest();
-            }while(input!='0');
-        }
-        else{
+//        if(test=='1')
+//        {
+//            char input;
+//            do
+//            {
+//                std::cin>>input;
+//                if(input=='w')
+//                    dsp.StartRecording();
+//                else if(input=='s')
+//                    dsp.StopRecording();
+//                else if(input=='d')
+//                    dsp.PlaybackTest();
+//            }while(input!='0');
+//        }
+//        else{
         do
         {
 //            try
@@ -165,12 +165,12 @@ void MQTT::run(MQTT ex)
             {
                 int frem =inty(decode(falseChar(wtf)));
                 int side =intx(decode(falseChar(wtf)));
-//                int afstand =currentspeed*10;
-//                for(int i=0;i<afstand;i++)
-//                {
+                int afstand = currentspeed*10;
+                for(int i=0;i<afstand;i++)
+                {
                 ex.messageBot(styr(side,frem));
                 std::cout <<" jaaa taaaak " << std::endl;
-//                }
+                }
                 ex.messageBot(styr(side,frem));
 //              ex.messageBot(styr(side,frem));
                 //test++;
@@ -197,7 +197,7 @@ void MQTT::run(MQTT ex)
 
 
         } while(1/*test<40*/);
-        }
+//        }
         ex.messageBot(styr(0,0));
 }
 
