@@ -12,6 +12,7 @@
 #include "json.hpp"
 #include "encoder.h"
 #include "Digital-Signal-Processing.h"
+#include "sound_generator.h"
 
 using json = nlohmann::json;
 

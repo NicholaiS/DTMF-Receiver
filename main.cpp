@@ -18,10 +18,13 @@ void setupAndRun()
 
 int main()
 {
-    setupAndRun();
-    std::vector<std::string> availableDevices = sf::SoundRecorder::getAvailableDevices();
-    for(int i=0; i<availableDevices.size();i++)
-        std::cout <<availableDevices.at(i) << std::endl;
+    while(1)
+    {
+        setupAndRun();
+        std::vector<std::string> availableDevices = sf::SoundRecorder::getAvailableDevices();
+        for(int i=0; i<availableDevices.size();i++)
+            std::cout <<availableDevices.at(i) << std::endl;
+    }
     //DSP TEST:
 //        char input;
 //        DSP dsp;
