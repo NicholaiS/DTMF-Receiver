@@ -125,15 +125,14 @@ json MQTT::slower()
         std::cout<<f<<std::endl;
         currentspeed=fasterslow;
         currentangle=angle;
-        throw(3);
     }
 }
 
 void MQTT::run(MQTT ex)
 {
 
-        //bool connected = ex.connect();
-        //std::cout << "Connected: " << connected << std::endl;
+        bool connected = ex.connect();
+        std::cout << "Connected: " << connected << std::endl;
         DSP dsp;
         std::string wtf;
         dsp.FindMic();
