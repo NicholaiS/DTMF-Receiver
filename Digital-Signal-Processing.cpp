@@ -40,7 +40,7 @@ void DSP::StartRecording()
 {
     unsigned int sampleRate = 44100;
     recorder.start(sampleRate);
-    std::cout << "Recording ..." << std::endl;
+    //std::cout << "Recording ..." << std::endl;
 }
 
 void DSP::StopRecording()
@@ -50,7 +50,7 @@ void DSP::StopRecording()
     sound.setBuffer(buffer);
     samples = buffer.getSamples();
     samplecount = buffer.getSampleCount();
-    std::cout << "Recording stopped" << std::endl;
+    //std::cout << "Recording stopped" << std::endl;
 }
 
 std::vector<std::vector<double>> DSP::BufferSplitter()

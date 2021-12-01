@@ -185,6 +185,7 @@ bool encoder::parityCheck2(std::string p)
 
 std::string encoder::falseChar(std::string p)
 {
+    std::cout << p << std::endl;
     int amountOfF1=0;
     int amountOfF2=0;
     int placeOfF1;
