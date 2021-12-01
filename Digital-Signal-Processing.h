@@ -35,7 +35,7 @@ private:
     std::size_t samplecount;
     int SamplingRate = 44100;
     double BackgroundNoiseCap = 0.2;
-    double StartBitBackgroundNoiseCap = 200.0;
+    double StartBitBackgroundNoiseCap = 100.0;
 };
 
 #endif // DIGITALSIGNALPROCESSING_H
