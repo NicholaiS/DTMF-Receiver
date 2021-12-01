@@ -129,18 +129,18 @@ void MQTT::run(MQTT ex)
         bool connected = ex.connect();
         std::cout << "Connected: " << connected << std::endl;
         DSP dsp;
-        std::string wtf;
+        std::string inputString;
         dsp.FindMic();
         std::cout << "Ready to run." << std::endl;
         do
         {
-            wtf = falseChar(dsp.RecordDSPLoop());
-            if(errorcheck(wtf))
+            inputString = falseChar(dsp.RecordDSPLoop());
+            if(errorcheck(inputString))
             {
-                int side =inty(decode(falseChar(wtf)));
-                int frem =intx(decode(falseChar(wtf)));
+                int side =inty(decode(inputString));
+                int frem =intx(decode(inputString));
                 int afstand = abs(frem)*10;
-                std::cout << afstand << frem <<std::endl;
+                std::cout << afstand << " " <<frem <<std::endl;
                 for(int i=0;i<afstand;i++)
                 {
                     ex.messageBot(styr(frem,side));

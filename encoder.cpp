@@ -249,20 +249,20 @@ bool encoder::errorcheck(std::string i)
             return false;
         }
 
-        if(i.size()!=2*k)
-        {
-            if(i.size()<10)
-            {
-                std::cout << "Modtog et for kort signal" <<std::endl;
-                return false;
-            }
+//        if(i.size()!=2*k)
+//        {
+//            if(i.size()<10)
+//            {
+//                std::cout << "Modtog et for kort signal" <<std::endl;
+//                return false;
+//            }
 
-            else
-            {
-                std::cout << "Modtog et for langt signal" << std::endl;
-                return false;
-            }
-        }
+//            else
+//            {
+//                std::cout << "Modtog et for langt signal" << std::endl;
+//                return false;
+//            }
+//        }
 
         for(int j=0; j<i.size();j++)
         {
