@@ -31,7 +31,6 @@ public:
     }
     bool connect();
     void messageBot(json j);
-//    void DirectionDecider(std::string d);
     json movement(direction d);
     void run(MQTT ex);
     json styr(double FB, double SS);

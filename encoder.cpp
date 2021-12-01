@@ -44,8 +44,6 @@ if(encheckstring(i)){
 
 std::string encoder::decode(std::string i)
 {
-    //if(errorcheck(i))
-    //{
         std::string sh1, sh2, fs;
 
         int tael=0;
@@ -122,6 +120,7 @@ int encoder::intx(std::string i){
         for(int j=4;j!=8;j++){
             str+=i[j];
         }
+
         if(str[0]=='0'){
         return std::stoi(str,0,2);
         } else {
@@ -160,10 +159,10 @@ bool encoder::parityCheck1(std::string p)
 
     for(int i=0;i<p.size()/2;i++)
     {
-        //std::cout<<i<<std::endl;
         if(p[i]=='1')
             paritychek++;
     }
+
     if(paritychek%2==0)
         return false;
     return true;
@@ -175,10 +174,10 @@ bool encoder::parityCheck2(std::string p)
 
         for(int i=p.size()/2;i<p.size();i++)
         {
-            //std::cout<<i<<std::endl;
             if(p[i]=='1')
                 paritychek++;
         }
+
         if(paritychek%2==0)
             return false;
         return true;
@@ -212,15 +211,18 @@ std::string encoder::falseChar(std::string p)
     {
         return "burst bits";
     }
+
     if(amountOfF1==1)
     {
         if(parityCheck1(p))
         {
             p[placeOfF1]='1';
         }
+
         else
             p[placeOfF1]='0';
     }
+
     if(amountOfF2==1)
     {
         if(parityCheck2(p))
@@ -236,19 +238,16 @@ std::string encoder::falseChar(std::string p)
 
 bool encoder::errorcheck(std::string i)
 {
-//    int paritycheck1=0;
-//    int paritycheck2=0;
     std::cout << i <<std::endl;
     std::string f1;
     std::string f2;
-//    try
-//    {
         if(i=="burst bits")
         {
             PlaySingle(852,1477);
             std::cout << "Burstbit"<<std::endl;
             return false;
         }
+
         if(i.size()!=2*k)
         {
             if(i.size()<10)
@@ -256,30 +255,28 @@ bool encoder::errorcheck(std::string i)
                 std::cout << "Modtog et for kort signal" <<std::endl;
                 return false;
             }
+
             else
             {
                 std::cout << "Modtog et for langt signal" << std::endl;
                 return false;
             }
         }
+
         for(int j=0; j<i.size();j++)
         {
             if(i[j]=='f')
             {
-//                std::cout<<"inkluderer f"<<std::endl;
-//                throw(3);   //beskeden indeholder en character der ikke er 1 eller 0
                 return false;
             }
+
             if(j<k)
             {
-//                if(i[j]=='1')
-//                    paritycheck1++;
                 f1+=i[j];
             }
+
             else
             {
-//                if(i[j]=='1')
-//                    paritycheck2++;
                 f2+=i[j];
             }
         }
@@ -290,6 +287,7 @@ bool encoder::errorcheck(std::string i)
                 PlaySingle(941,1633);
                 return false;
         }
+
         int b1=0;
         int b2=0;
         for(int l=0;l<16;l++)
@@ -299,62 +297,15 @@ bool encoder::errorcheck(std::string i)
             if(f2==kodewords(l))
                 b2++;
         }
+
         if(b1!=1&&b2!=1)
         {
             std::cout <<"Koden findes ikke på listen"<<std::endl;
             return false;
         }
 
-//        PlaySingle(697,1209); //DTMF 1
         PlaySingle(697,1209); //DTMF 1
         std::cout << "snilt" <<std::endl;  
         return true;
-//    }
-//    catch(int x)
-//    {
-//        if(x!=1||x!=2||x!=3||x!=4||x!=5||x!=6)
-//            PlaySingle(697,1209);
-//        switch(x)
-//        {
-//        default:
-//            PlaySingle(697,1209); //DTMF 1 Disse 3 lyde sørger for at sende "Det hele Kører fint!!!"
-//            std::cout << "DTMF 1" <<std::endl;
-//            return true;
-//            break;
-//        case 1:
-//            std::cout<<"Too few bits"<<std::endl;
-//            return false;
-//            break;
-
-//        case 2:
-//            std::cout<<"Too many bits"<<std::endl;
-//            return false;
-//            break;
-
-//        case 3:
-//            std::cout<<"message contains invalid characters"<<std::endl;
-//            return false;
-//            break;
-
-//        case 4:
-//            PlaySingle(852,1477); //DTMF 9     siger til hvis der er mere end 1 f i enten de første 5 eller de sidste 5 bits
-//            PlaySingle(697,1209); //DTMF 1
-
-//            std::cout<<"Burst bit error"<<std::endl;
-//            return false;
-//            break;
-
-//        case 5:
-//            PlaySingle(941,1633); //DTMF D      Parity bit forkert i en af de 2 bits
-//            std::cout<<"Parity bit error"<<std::endl;
-//            return false;
-//            break;
-
-//        case 6:
-//            std::cout<<"kodeword dossnt exist"<<std::endl;
-//            return false;
-//            break;
-//        }
-//    }
 }
 

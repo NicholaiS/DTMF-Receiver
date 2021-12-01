@@ -8,8 +8,6 @@ SoundGenerator::SoundGenerator()
 
 }
 
-
-
 short SoundGenerator::SineWave(double time, double freq1, double freq2, double amp)
 {
     #define TWO_PI 6.28318530718
@@ -29,7 +27,6 @@ short SoundGenerator::SineWave(double time, double freq1, double freq2, double a
 
     return result;
 }
-
 
 void SoundGenerator::PlaySingle(double f1, double f2){
     sf::Sound ssound;
@@ -64,7 +61,6 @@ void SoundGenerator::PlayLoop(double f1, double f2)
     lsound.setLoop(true);
     lsound.play();
     }
-
 }
 
 void SoundGenerator::PlaySequence(std::string q){

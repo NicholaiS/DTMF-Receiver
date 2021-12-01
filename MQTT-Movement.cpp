@@ -46,8 +46,6 @@ json MQTT::styr(double FB, double SS)
             std::cout<<f<<std::endl;
 
             return f;
-
-
     }
 
     else if(currentangle<-0.7) //currentangle testen chekker om inputtet er -8 hvor fasterslow checker om den må kører langsommere
@@ -63,9 +61,7 @@ json MQTT::styr(double FB, double SS)
     else
     {
         std::cout << "forstod intet (MQTT)" << std::endl;
-
     }
-
 }
 
 json MQTT::faster()
@@ -130,37 +126,15 @@ json MQTT::slower()
 
 void MQTT::run(MQTT ex)
 {
-
         bool connected = ex.connect();
         std::cout << "Connected: " << connected << std::endl;
         DSP dsp;
         std::string wtf;
         dsp.FindMic();
         std::cout << "Ready to run." << std::endl;
-        ex.messageBot(styr(0,0));
-        char test=0;
-        //std::cin>>test;
-//        if(test=='1')
-//        {
-//            char input;
-//            do
-//            {
-//                std::cin>>input;
-//                if(input=='w')
-//                    dsp.StartRecording();
-//                else if(input=='s')
-//                    dsp.StopRecording();
-//                else if(input=='d')
-//                    dsp.PlaybackTest();
-//            }while(input!='0');
-//        }
-//        else{
         do
         {
-//            try
-//            {
             wtf = falseChar(dsp.RecordDSPLoop());
-//            wtf=falseChar("01ff1001f0");
             if(errorcheck(wtf))
             {
                 int side =inty(decode(falseChar(wtf)));
@@ -170,47 +144,9 @@ void MQTT::run(MQTT ex)
                 for(int i=0;i<afstand;i++)
                 {
                     ex.messageBot(styr(frem,side));
-                    std::cout <<" jaaa taaaak " << std::endl;
                     usleep(10000);
                 }
-                ex.messageBot(styr(frem,side));
-//              ex.messageBot(styr(side,frem));
-                //test++;
             }
-//            }
-//            catch(int x)
-//            {
-//                switch(x)
-//                {
-//                case 1:
-//                    std::cout<<"forstod intet"<<std::endl;
-//                    break;
-
-//                case 2:
-//                    std::cout<<"kan ikke kører hurtigere"<<std::endl;
-//                    break;
-
-//                case 3:
-//                    std::cout<<"kan ikke kører langsommere"<<std::endl;
-//                    break;
-//                }
-//            }
-
-
-
         } while(1/*test<40*/);
-//        }
         ex.messageBot(styr(0,0));
 }
-
-
-//void MQTT::signalHandler(int s)
-//{
-//    json stop_msg = {{"linear", {{"x", 0.0}, {"y", 0}, {"z", 0}}},
-//    {"angular", {{"x", 0}, {"y", 0}, {"z", 0.0}}}
-//    };
-//    std::cout << "CTRL + C pressed, exiting.." << std::endl;
-//    tok = mes->publish(stop_msg.dump());
-//    tok->wait();
-//    exit(s);
-//}
