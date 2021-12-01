@@ -35,7 +35,7 @@ void SoundGenerator::PlaySingle(double f1, double f2){
 
     for(double i = 0; i < 44100*duration; i++)
     {
-        ssamples.push_back(SineWave(i, f1, f2, 0.1));
+        ssamples.push_back(10*SineWave(i, f1, f2, 0.1));
     }
 
     sbuffer.loadFromSamples(&ssamples[0], ssamples.size(), 1, 44100);
