@@ -144,7 +144,7 @@ void MQTT::run(MQTT ex)
                 for(int i=0;i<afstand;i++)
                 {
                     ex.messageBot(styr(frem,side));
-                    usleep(10000);
+                    usleep(100000);
                 }
             }
         } while(1/*test<40*/);
