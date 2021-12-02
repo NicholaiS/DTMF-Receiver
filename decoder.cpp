@@ -1,13 +1,13 @@
-#include "encoder.h"
+#include "decoder.h"
 #include <string>
 #include <iostream>
 
-encoder::encoder()
+decoder::decoder()
 {
 
 }
 
-std::string encoder::encode(std::string i){
+std::string decoder::encode(std::string i){
 if(encheckstring(i)){
 
     std::string sh1;
@@ -42,58 +42,56 @@ if(encheckstring(i)){
 }
 }
 
-std::string encoder::decode(std::string i)
+std::string decoder::decode(std::string i)
 {
-        std::string sh1, sh2, fs;
-
-        int tael=0;
-
-        for(int j=0; j<(2*k);j++)
-        {
-            if(j<k){
-                sh1+=i[j];
-            }
-            else
-            {
-                sh2+=i[j];
-            }
-        }
-
-        for(int j=0; j<(n*n);j++)
-        {
-            if(sh1==kodeword[j])
-            {
-                fs+=dataword[j];
-            }
-            else {tael++;}
-        }
-
-        for(int j=0; j<(n*n);j++)
-        {
-            if(sh2==kodeword[j])
-            {
-                fs+=dataword[j];
-            }
-            else {tael++;}
-        }
-
-        fejl=tael-(n*n*2-2);
-
-        if(fejl==0)
-        {
-            return fs;
-            decodecheck=true;
+    std::string sh1, sh2, fs;
+    int count=0;
+    for(int j=0; j<(2*k);j++)
+    {
+        if(j<k){
+            sh1+=i[j];
         }
         else
         {
-            std::string fejlstr = sh1.substr(0,4);
-            fejlstr += sh2.substr(0,4);
-            return fejlstr;
-            decodecheck=false;
+            sh2+=i[j];
         }
+    }
+
+    for(int j=0; j<(n*n);j++)
+    {
+        if(sh1==kodeword[j])
+        {
+            fs+=dataword[j];
+        }
+        else {count++;}
+    }
+
+    for(int j=0; j<(n*n);j++)
+    {
+        if(sh2==kodeword[j])
+        {
+            fs+=dataword[j];
+        }
+        else {count++;}
+    }
+
+    fejl=count-(n*n*2-2);
+
+    if(fejl==0)
+    {
+        return fs;
+        decodecheck=true;
+    }
+    else
+    {
+        std::string fejlstr = sh1.substr(0,4);
+        fejlstr += sh2.substr(0,4);
+        return fejlstr;
+        decodecheck=false;
+    }
 }
 
-int encoder::inty(std::string i)
+int decoder::inty(std::string i)
 {
     std::string str;
     if(encheckstring(i))
@@ -114,7 +112,7 @@ int encoder::inty(std::string i)
     }
 }
 
-int encoder::intx(std::string i){
+int decoder::intx(std::string i){
     std::string str;
     if(encheckstring(i)){
         for(int j=4;j!=8;j++){
@@ -130,7 +128,7 @@ int encoder::intx(std::string i){
     }
 }
 
-bool encoder::encheckstring(std::string i){
+bool decoder::encheckstring(std::string i){
     bool tjek1=false, tjek2=false;
     if(i.size()==(2*n)){
         tjek1=true;
@@ -153,7 +151,7 @@ bool encoder::encheckstring(std::string i){
     } else return false;
 }
 
-bool encoder::parityCheck1(std::string p)
+bool decoder::parityCheck1(std::string p)
 {
     int paritychek=0;
 
@@ -168,7 +166,7 @@ bool encoder::parityCheck1(std::string p)
     return true;
 
 }
-bool encoder::parityCheck2(std::string p)
+bool decoder::parityCheck2(std::string p)
 {
         int paritychek=0;
 
@@ -183,7 +181,7 @@ bool encoder::parityCheck2(std::string p)
         return true;
 }
 
-std::string encoder::falseChar(std::string p)
+std::string decoder::falseChar(std::string p)
 {
     std::cout << p << std::endl;
     int amountOfF1=0;
@@ -237,9 +235,8 @@ std::string encoder::falseChar(std::string p)
     return p;
 }
 
-bool encoder::errorcheck(std::string i)
+bool decoder::errorcheck(std::string i)
 {
-    std::cout << i <<std::endl;
     std::string f1;
     std::string f2;
         if(i=="burst bits")
@@ -248,21 +245,6 @@ bool encoder::errorcheck(std::string i)
             std::cout << "Burstbit"<<std::endl;
             return false;
         }
-
-//        if(i.size()!=2*k)
-//        {
-//            if(i.size()<10)
-//            {
-//                std::cout << "Modtog et for kort signal" <<std::endl;
-//                return false;
-//            }
-
-//            else
-//            {
-//                std::cout << "Modtog et for langt signal" << std::endl;
-//                return false;
-//            }
-//        }
 
         for(int j=0; j<i.size();j++)
         {
@@ -305,8 +287,7 @@ bool encoder::errorcheck(std::string i)
             return false;
         }
 
-        PlaySingle(697,1209); //DTMF 1
-        std::cout << "snilt" <<std::endl;  
+        PlaySingle(697,1209); //DTMF 1 
         return true;
 }
 

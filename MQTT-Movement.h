@@ -10,7 +10,7 @@
 #include <string>
 #include "mqtt/async_client.h"
 #include "json.hpp"
-#include "encoder.h"
+#include "decoder.h"
 #include "Digital-Signal-Processing.h"
 #include "sound_generator.h"
 
@@ -21,7 +21,7 @@ enum direction
     FORWARD, BACKWARDS, LEFT, RIGHT, STOP
 };
 
-class MQTT : encoder//, DSP
+class MQTT : decoder//, DSP
 {
 public:
     MQTT (){}

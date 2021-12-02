@@ -1,14 +1,14 @@
-#ifndef ENCODER_H
-#define ENCODER_H
+#ifndef DECODER_H
+#define DECODER_H
 #include <string>
 #include <bitset>
 #include <vector>
 #include "sound_generator.h"
 
-class encoder : SoundGenerator
+class decoder : SoundGenerator
 {
 public:
-    encoder();
+    decoder();
     std::string encode(std::string i);
     std::string decode(std::string i);
     int intx(std::string i);
@@ -37,4 +37,4 @@ private:
     int ss;    
 };
 
-#endif // ENCODER_H
+#endif // DECODER_H
