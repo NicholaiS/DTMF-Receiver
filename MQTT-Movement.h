@@ -16,10 +16,10 @@
 
 using json = nlohmann::json;
 
-enum direction
-{
-    FORWARD, BACKWARDS, LEFT, RIGHT, STOP
-};
+//enum direction
+//{
+//    FORWARD, BACKWARDS, LEFT, RIGHT, STOP
+//};
 
 class MQTT : decoder//, DSP
 {
@@ -31,9 +31,9 @@ public:
     }
     bool connect();
     void messageBot(json j);
-    json movement(direction d);
+//    json movement(direction d);
     void run(MQTT ex);
-    json styr(double FB, double SS);
+    json control(double FB, double SS);
     json faster();
     json slower();
 

@@ -31,17 +31,17 @@ void MQTT::messageBot(json j)
     }
 }
 
-json MQTT::styr(double FB, double SS)
+json MQTT::control(double FB, double SS)
 {
     fasterslow=currentspeed;
     angle=currentangle;
     currentspeed=FB/10;
     currentangle=SS/10;
-    if(currentspeed>-0.701 && currentspeed<0.701 && currentangle>=-0.701 && currentangle<=0.701)
+    if(currentspeed>=-0.701 && currentangle>=-0.701)
     {
             json f = {
                 {"linear", {{"x", currentspeed}, {"y",0},{"z",0}}},
-                {"angular", {{"x", 0}, {"y",0},{"z", currentangle}}}
+                {"angular", {{"x", 0}, {"y",0},{"z", -currentangle}}}
             };
             std::cout<<f<<std::endl;
 
@@ -73,7 +73,7 @@ json MQTT::faster()
         fasterslow=fasterslow/10;
         json f = {
             {"linear", {{"x", fasterslow}, {"y",0},{"z",0}}},
-            {"angular", {{"x", 0}, {"y",0},{"z", angle}}}
+            {"angular", {{"x", 0}, {"y",0},{"z", -angle}}}
         };
         messageBot(f);
         std::cout<<f<<std::endl;
@@ -85,7 +85,7 @@ json MQTT::faster()
     {
         json f = {
             {"linear", {{"x", fasterslow}, {"y",0},{"z",0}}},
-            {"angular", {{"x", 0}, {"y",0},{"z", angle}}}
+            {"angular", {{"x", 0}, {"y",0},{"z", -angle}}}
         };
         messageBot(f);
         std::cout<<f<<std::endl;
@@ -143,10 +143,9 @@ void MQTT::run(MQTT ex)
                 std::cout << afstand << " " <<frem <<std::endl;
                 for(int i=0;i<afstand;i++)
                 {
-                    ex.messageBot(styr(frem,side));
+                    ex.messageBot(control(frem,side));
                     usleep(100000);
                 }
             }
-        } while(1/*test<40*/);
-        ex.messageBot(styr(0,0));
+        } while(1);
 }
